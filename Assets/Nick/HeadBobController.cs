@@ -31,7 +31,7 @@ public class HeadBobController : MonoBehaviour
     {
         Vector3 pos = Vector3.zero;
         pos.y += Mathf.Sin(Time.time * _frequency) * _amplitude;
-        pos.x += Mathf.Cos(Time.time * _frequency / 2) * _amplitude * 2;
+        //pos.x += Mathf.Cos(Time.time * _frequency / 2) * _amplitude * 2;
         return pos;
     }
 
@@ -44,7 +44,7 @@ public class HeadBobController : MonoBehaviour
         if (speed < _toggleSpeed) return;
         if (!_controller.Grounded) return;
 
-        _camera.localPosition += FootStepMotion();
+        _camera.position += FootStepMotion();
     }
 
     private void ResetPosition()

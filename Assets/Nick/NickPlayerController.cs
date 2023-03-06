@@ -11,11 +11,11 @@ public class NickPlayerController : MonoBehaviour
     public float speed, sens, maxForce, jumpForce, crouchSpeed;
     private float curSpeed, curJumpForce;
     private float lookRotation;
-    private bool grounded;
+    public bool grounded;
 
     [SerializeField] private LayerMask whatIsGround;
-
     [SerializeField] private Transform groundCheck;
+    [SerializeField] private Mesh gizmoMesh;
 
     public bool Grounded
     {
@@ -39,14 +39,13 @@ public class NickPlayerController : MonoBehaviour
 
     public void OnCrouch(InputAction.CallbackContext context)
     {
-        // Crouch();
         if (grounded && context.performed)
         {
-            curSpeed = crouchSpeed;
+            Crouch();
         }
         else if (context.canceled)
         {
-            curSpeed = speed;
+            Uncrouch();
         }
     }
 
@@ -114,11 +113,27 @@ public class NickPlayerController : MonoBehaviour
 
     private void Crouch()
     {
-
+        curSpeed = crouchSpeed;
+        camHolder.position -= Vector3.up * 0.75f;
+    }
+    private void Uncrouch()
+    {
+        curSpeed = speed;
+        camHolder.position += Vector3.up * 0.75f;
     }
 
     bool isGrounded()
     {
-        return Physics.CheckSphere(groundCheck.position, 0.1f, whatIsGround);
+        return Physics.CheckSphere(groundCheck.position, 0.5f, whatIsGround);
     }
+
+    #if UNITY_EDITOR
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        CapsuleCollider cc = GetComponent<CapsuleCollider>();
+        Gizmos.DrawWireMesh(gizmoMesh, -1, transform.position, Quaternion.identity,
+            new Vector3(cc.radius*2, cc.height/2, cc.radius*2));
+    }
+    #endif
 }
