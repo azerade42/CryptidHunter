@@ -6,11 +6,12 @@ TagManager:
   tags:
   - CinemachineTarget
   - Ground
+  - PostProcessing
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PostProcessing
   - Water
   - UI
   - 
