@@ -51,9 +51,36 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Equip",
+                    "name": "EquipLeft",
                     "type": "Button",
                     "id": "5f230474-9287-4580-a497-090add248ecb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EquipRight",
+                    "type": "Button",
+                    "id": "6713c9cc-26fa-45f7-ae31-d309fc0b8042",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AimDownSight",
+                    "type": "Button",
+                    "id": "911a0316-3882-4eb7-b994-4e2a4796a299",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pickup",
+                    "type": "Button",
+                    "id": "60815517-a6e7-4e22-b9fc-e0416afb09b5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -327,45 +354,45 @@
                 },
                 {
                     "name": "",
-                    "id": "05ae89a5-2ff8-470a-b751-612dfd7638eb",
-                    "path": "<Keyboard>/1",
+                    "id": "7e2b6b35-74c5-4c96-b154-7bd4a9bd7695",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Equip",
+                    "action": "EquipLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "9b78eece-0f2a-40af-80d4-537383b5c206",
-                    "path": "<Keyboard>/2",
+                    "id": "8e82d956-fd1f-4b39-9c5d-1d7779693e8c",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Equip",
+                    "groups": "",
+                    "action": "EquipRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "ee5a0f2b-bd56-4c55-914d-e904abb33e16",
-                    "path": "<Keyboard>/3",
+                    "id": "d07ab50a-b9c0-46da-8737-3e9c1c591262",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Equip",
+                    "action": "AimDownSight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "d595b2a6-6727-484f-b195-1499b6c317b9",
-                    "path": "<Keyboard>/4",
+                    "id": "01542a8d-06d2-4ca1-9db2-5234a5066173",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Equip",
+                    "groups": "",
+                    "action": "Pickup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

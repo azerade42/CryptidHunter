@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class NickPlayerController : MonoBehaviour
 {
+
+    public UnityAction fireAction;
+    public UnityAction equipRightAction;
+
     private Rigidbody rb;
     private Vector2 move, look;
     private float curSpeed, curJumpForce;
     private float lookRotation;
-    private bool isHoldingGun;
+    private bool isHoldingGun, isHoldingFlashlight;
+    public bool isPickingUp;
 
     [Header("Player Controller")]
     public float speed;
@@ -20,24 +26,33 @@ public class NickPlayerController : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Mesh gizmoMesh;
-    [SerializeField] private Animator anim;
+    public Animator anim;
 
-    [Space(5)]
-    [Header("Rifle")]
+    [SerializeField] private GameObject flashlight;
+
+    // [Space(5)]
+    // [Header("Rifle")]
     [SerializeField] private GameObject gun;
-    [SerializeField] private LayerMask aimColliderMask = new LayerMask();
-    [SerializeField] private ParticleSystem muzzleFlash;
-    [SerializeField] private ParticleSystem hitParticle;
+
+    [SerializeField] private AudioSource audioSource;
+
+    bool footstepsEnabled;
 
     private float startShotTime, timeSinceShot;
     private bool isShooting;
-
-    // public Transform debugTransform;
+    
+    public float StartShotTime
+    {
+        get { return startShotTime; }
+        set { startShotTime = value; }
+    }
 
     public bool Grounded
     {
         get { return grounded; }
     }
+
+    // public Transform debugTransform;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -54,14 +69,29 @@ public class NickPlayerController : MonoBehaviour
         Jump();
     }
 
-    public void OnEquip(InputAction.CallbackContext context)
+    public void OnEquipLeft(InputAction.CallbackContext context)
     {
-        Equip();
+        EquipLeft();
+    }
+
+    public void OnEquipRight(InputAction.CallbackContext context)
+    {
+        EquipRight();
+    }
+
+    public void OnPickup(InputAction.CallbackContext context)
+    {
+        Pickup();
+    }
+
+    public void OnAimDownSight(InputAction.CallbackContext context)
+    {
+        AimDownSight();
     }
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (!isShooting && context.performed)
+        if (!isShooting && context.performed && !isPickingUp)
         {
             Fire();
             isShooting = true;
@@ -90,7 +120,10 @@ public class NickPlayerController : MonoBehaviour
 
         curSpeed = speed;
         curJumpForce = jumpForce;
+
         timeSinceShot = Mathf.Infinity;
+        gun.gameObject.SetActive(false);
+        isHoldingFlashlight = true;
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -124,7 +157,14 @@ public class NickPlayerController : MonoBehaviour
 
         rb.AddForce(velocityChange, ForceMode.VelocityChange);
 
-        anim.SetFloat("Speed", rb.velocity.magnitude);
+        float hozSpeed = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
+
+        anim.SetFloat("Speed", hozSpeed);
+
+        if (!footstepsEnabled && grounded && hozSpeed > 0.5f)
+            audioSource.enabled = true;
+        else if (footstepsEnabled || !grounded || hozSpeed <= 0.5f)
+            audioSource.enabled = false;
     }
 
     private void Look()
@@ -165,52 +205,50 @@ public class NickPlayerController : MonoBehaviour
         return Physics.CheckSphere(groundCheck.position, 0.5f, whatIsGround);
     }
 
-    private void Equip()
+
+    private void AimDownSight()
     {
-        isHoldingGun = !isHoldingGun;
-        gun.SetActive(isHoldingGun);
-        anim.SetBool("isHoldingGun", isHoldingGun);
+
     }
 
     private void Fire()
     {
-        // maybe call event so rifle behavior isn't in player controller
-
         if (!isHoldingGun) return;
 
         timeSinceShot = Time.time - startShotTime;
 
         if (timeSinceShot < 1f) return;
 
-        // Changes based on PS1 render texture
-        Vector2 screenCenterPoint = new Vector2(256f/2, 224f/2);
-        
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, aimColliderMask))
-        {
-            startShotTime = Time.time;
-
-            // debugTransform.position = raycastHit.point;
-
-            muzzleFlash.Play();
-            anim.SetTrigger("RifleShot");
-
-            GameObject whatIsHit = raycastHit.transform.gameObject;
-
-            if (whatIsHit.CompareTag("Enemy"))
-            {
-                Debug.Log("HIT TARGET");
-
-                bool died = whatIsHit.GetComponent<Enemy>()!.ChangeHealth(-1);
-
-                if (!died)
-                {
-                    ParticleSystem explosion = Instantiate(hitParticle, raycastHit.point, Quaternion.identity);
-                    Destroy(explosion.gameObject, 1f);
-                }
-            }
-        }
+        fireAction.Invoke();       
     }
+
+    // Cycles between flashlight and rifle
+    private void EquipRight()
+    {
+        timeSinceShot = Time.time - startShotTime;
+        if (timeSinceShot < 1f) return;
+
+        equipRightAction.Invoke();
+
+        isHoldingGun = !isHoldingGun;
+        isHoldingFlashlight = !isHoldingFlashlight;
+        gun.SetActive(isHoldingGun);
+        flashlight.SetActive(isHoldingFlashlight);
+        anim.SetBool("isHoldingGun", isHoldingGun);
+    }
+
+    // Cycles between talisman and consumables
+    private void EquipLeft()
+    {
+        
+    }
+
+    private void Pickup()
+    {
+        anim.SetTrigger("Pickup");
+    }
+
+    // Yellow Gizmo capsule to see the player bettewr
 
     #if UNITY_EDITOR
     void OnDrawGizmos()
