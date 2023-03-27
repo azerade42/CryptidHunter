@@ -1848,6 +1848,7 @@ GameObject:
   - component: {fileID: 6046200716653241225}
   - component: {fileID: 6046200716653241245}
   - component: {fileID: 8459449482496048004}
+  - component: {fileID: 176009488481692281}
   - component: {fileID: 6046200716653241224}
   m_Layer: 0
   m_Name: NickPlayer
@@ -2050,7 +2051,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6046200716653241236}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e665fdc30b605c4c9e3b65e770e6896, type: 3}
   m_Name: 
@@ -2067,6 +2068,32 @@ MonoBehaviour:
     m_Bits: 512
   groundCheck: {fileID: 8459449482096652181}
   gizmoMesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &176009488481692281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6046200716653241236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc11b6ecf15096646a1a31c7e17d4e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camHolder: {fileID: 6046200718164347915}
+  speed: 5
+  sens: 0.1
+  maxForce: 2.5
+  jumpForce: 2.5
+  crouchSpeed: 2.5
+  grounded: 0
+  toggleNightVision: 0
+  nightVisComponent: {fileID: 0}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
+  groundCheck: {fileID: 0}
+  gizmoMesh: {fileID: 0}
 --- !u!114 &6046200716653241224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2109,7 +2136,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6046200718164347912}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.388, z: 0}
+  m_LocalPosition: {x: 0, y: 1.888, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
