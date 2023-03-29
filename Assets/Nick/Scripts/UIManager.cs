@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private NickPlayerController playerController;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private Image crosshair;
     private bool crosshairActive;
 
-    private void Awake()
+    private void OnEnable()
     {
         playerController.equipRightAction += SwitchCrosshair;
     }
@@ -18,6 +18,11 @@ public class UIManager : MonoBehaviour
     {
         crosshairActive = !crosshairActive;
         crosshair.gameObject.SetActive(crosshairActive);
+    }
+
+    private void OnDisable()
+    {
+        playerController.equipRightAction -= SwitchCrosshair;
     }
 
 

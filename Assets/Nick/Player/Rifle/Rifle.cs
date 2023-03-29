@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Rifle : MonoBehaviour
 {
-    [SerializeField] private NickPlayerController playerController;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private LayerMask aimColliderMask = new LayerMask();
     
     [SerializeField] private ParticleSystem muzzleFlash;
     
     [SerializeField] private ParticleSystem hitParticle;
 
-    void Awake()
+    void OnEnable()
     {
         playerController.fireAction += FireRifle;
     }
@@ -52,5 +52,10 @@ public class Rifle : MonoBehaviour
                 Destroy(explosion.gameObject, 1f);
             }
         }
+    }
+
+    void OnDisable()
+    {
+        playerController.fireAction -= FireRifle;
     }
 }

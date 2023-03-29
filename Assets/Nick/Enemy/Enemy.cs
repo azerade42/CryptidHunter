@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {    
+    public UnityAction nearPlayer;
+    public UnityAction leavePlayer;
+    
     private float health;
     private bool hasDied;
     public float Health
