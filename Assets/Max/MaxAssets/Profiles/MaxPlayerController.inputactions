@@ -1,5 +1,5 @@
 {
-    "name": "NickPlayerController",
+    "name": "MaxPlayerController",
     "maps": [
         {
             "name": "Player",
@@ -54,6 +54,15 @@
                     "name": "NightVision",
                     "type": "Button",
                     "id": "d43b75ea-3330-4b71-a8ef-143a73c2f492",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PickUp",
+                    "type": "Button",
+                    "id": "5b32523b-b9df-41f3-9f9d-26bf50f19f4d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -344,6 +353,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "NightVision",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6bb9b0de-0443-4a33-b028-248a5492d331",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PickUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2f9d4429-2ccd-42bc-ae4a-a53e074829d0",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PickUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

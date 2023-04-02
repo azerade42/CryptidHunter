@@ -8675,7 +8675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20848322, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.6247775, g: 0.9811321, b: 0.73251337, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9615,18 +9615,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 838255362}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1560381170 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3997250671512426146, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-    type: 3}
-  m_PrefabInstance: {fileID: 3997250672502313040}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc11b6ecf15096646a1a31c7e17d4e32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1570769310
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9967,7 +9955,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -273, y: 157.99997}
+  m_AnchoredPosition: {x: -351, y: 196.4}
   m_SizeDelta: {x: 60.292206, y: 15.343002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1733637526
@@ -9983,6 +9971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1733637527}
+  batteryIcon: {fileID: 1733637524}
 --- !u!114 &1733637527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10028,9 +10017,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11257,111 +11246,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3997250671512426146, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: batBar
-      value: 
-      objectReference: {fileID: 1733637526}
-    - target: {fileID: 3997250671512426146, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: nightVisComponent
-      value: 
-      objectReference: {fileID: 341275256}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1560381170}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1560381170}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1560381170}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1560381170}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1560381170}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnMove
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnLook
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnJump
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnCrouch
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnNightVision
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MaxPlayerController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MaxPlayerController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MaxPlayerController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MaxPlayerController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MaxPlayerController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997250671512426147, guid: 79aeb3da037987a4eb97f8f2b72c7679,
-        type: 3}
-      propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3997250671512426150, guid: 79aeb3da037987a4eb97f8f2b72c7679,
         type: 3}
       propertyPath: m_RootOrder
@@ -11422,5 +11306,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: MaxPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 7786399133158160162, guid: 79aeb3da037987a4eb97f8f2b72c7679,
+        type: 3}
+      propertyPath: batBar
+      value: 
+      objectReference: {fileID: 1733637526}
+    - target: {fileID: 7786399133158160162, guid: 79aeb3da037987a4eb97f8f2b72c7679,
+        type: 3}
+      propertyPath: nightVisComponent
+      value: 
+      objectReference: {fileID: 341275256}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79aeb3da037987a4eb97f8f2b72c7679, type: 3}
