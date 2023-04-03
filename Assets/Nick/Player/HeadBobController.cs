@@ -13,12 +13,12 @@ public class HeadBobController : MonoBehaviour
 
     [SerializeField] private float _toggleSpeed;
     private Vector3 _startPos;
-    private MaxPlayerController _controller;
+    private NickPlayerController _controller;
     private Rigidbody _rb;
 
     void Awake()
     {
-        _controller = gameObject.GetComponent<MaxPlayerController>();
+        _controller = gameObject.GetComponent<NickPlayerController>();
         _rb = gameObject.GetComponent<Rigidbody>();
     }
 

@@ -1,5 +1,5 @@
 {
-    "name": "NickPlayerController",
+    "name": "PlayerController",
     "maps": [
         {
             "name": "Player",
@@ -81,6 +81,15 @@
                     "name": "Pickup",
                     "type": "Button",
                     "id": "60815517-a6e7-4e22-b9fc-e0416afb09b5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NightVision",
+                    "type": "Button",
+                    "id": "67c28ee9-c6d4-4f8b-8c5b-34b04681462b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -393,6 +402,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pickup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5862f64f-fcff-46ed-bdce-76472d494230",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NightVision",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private NickPlayerController playerController;
     [SerializeField] private Image crosshair;
     private bool crosshairActive;
 

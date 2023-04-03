@@ -13,6 +13,7 @@ public class WaypointManager : MonoBehaviour
 
     public Color [] _rainbow;
 
+    #if UNITY_EDITOR
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
@@ -21,7 +22,6 @@ public class WaypointManager : MonoBehaviour
         {
             Gizmos.color = _rainbow[i % _rainbow.Length];
             Gizmos.DrawSphere(_trackedWaypoints[i].position, 0.5f);
-            //Gizmos.color = Color.white;
 
             if (i !=  _trackedWaypoints.Length - 1)
                 Gizmos.DrawLine(_trackedWaypoints[i].position, _trackedWaypoints[i + 1].position);
@@ -29,5 +29,5 @@ public class WaypointManager : MonoBehaviour
                 Gizmos.DrawLine(_trackedWaypoints[i].position, _trackedWaypoints[0].position);
         }
     }
-
+    #endif
 }

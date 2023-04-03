@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Rifle : MonoBehaviour
 {
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private NickPlayerController playerController;
     [SerializeField] private LayerMask aimColliderMask = new LayerMask();
     
     [SerializeField] private ParticleSystem muzzleFlash;
@@ -26,8 +26,6 @@ public class Rifle : MonoBehaviour
         {
             playerController.StartShotTime = Time.time;
 
-            // debugTransform.position = raycastHit.point;
-
             muzzleFlash.Play();
             playerController.anim.SetTrigger("RifleShot");
 
@@ -37,11 +35,11 @@ public class Rifle : MonoBehaviour
             {
                 Debug.Log("HIT TARGET");
 
-                bool died = whatIsHit.GetComponent<Enemy>()!.ChangeHealth(-1);
+                bool died = whatIsHit.GetComponent<Enemy>().ChangeHealth(-1);
 
                 if (!died)
                 {
-                    ParticleSystem explosion = Instantiate(hitParticle, raycastHit.point, Quaternion.identity);
+                    ParticleSystem explosion = Instantiate(hitParticle, raycastHit.point, Quaternion.identity, whatIsHit.transform);
                     Destroy(explosion.gameObject, 1f);
                 }
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering;
 
 public class NickPlayerController : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class NickPlayerController : MonoBehaviour
     // [Header("Rifle")]
     [SerializeField] private GameObject gun;
 
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource footSteps;
 
     bool footstepsEnabled;
 
@@ -53,6 +54,14 @@ public class NickPlayerController : MonoBehaviour
     }
 
     // public Transform debugTransform;
+
+    // /////////////////// MAX /////////////////
+    public BatteryPercent batBar;
+    [SerializeField] private Volume nightVisComponent;
+    public bool nightVisToggle;
+    public float batteryPercent;
+    public float totalBatteryLife = 10.0f;
+    // ////////////////////////////////////////////
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -114,6 +123,12 @@ public class NickPlayerController : MonoBehaviour
         }
     }
 
+    public void OnNightVision(InputAction.CallbackContext context)
+    {
+        NightVision();
+        NightVisionBattery();
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -162,9 +177,9 @@ public class NickPlayerController : MonoBehaviour
         anim.SetFloat("Speed", hozSpeed);
 
         if (!footstepsEnabled && grounded && hozSpeed > 0.5f)
-            audioSource.enabled = true;
+            footSteps.enabled = true;
         else if (footstepsEnabled || !grounded || hozSpeed <= 0.5f)
-            audioSource.enabled = false;
+            footSteps.enabled = false;
     }
 
     private void Look()
@@ -219,7 +234,8 @@ public class NickPlayerController : MonoBehaviour
 
         if (timeSinceShot < 1f) return;
 
-        fireAction.Invoke();       
+        if (fireAction != null)
+            fireAction.Invoke();
     }
 
     // Cycles between flashlight and rifle
@@ -228,7 +244,8 @@ public class NickPlayerController : MonoBehaviour
         timeSinceShot = Time.time - startShotTime;
         if (timeSinceShot < 1f) return;
 
-        equipRightAction.Invoke();
+        if (equipRightAction != null)
+            equipRightAction.Invoke();
 
         isHoldingGun = !isHoldingGun;
         isHoldingFlashlight = !isHoldingFlashlight;
@@ -246,6 +263,32 @@ public class NickPlayerController : MonoBehaviour
     private void Pickup()
     {
         anim.SetTrigger("Pickup");
+    }
+
+    private void NightVision()
+    {
+
+        if(nightVisToggle != true)
+        {
+            nightVisComponent.enabled =  !nightVisComponent.enabled;
+            nightVisToggle = true;
+        }
+        else
+        {
+            nightVisComponent.enabled = !nightVisComponent.enabled;
+            nightVisToggle = false;
+        }
+    }
+    public void NightVisionBattery()
+    {
+        if (nightVisToggle == true)
+        {
+            if (batteryPercent >= 0.0)
+            {
+                batteryPercent = totalBatteryLife/Time.deltaTime;
+            }
+            batBar.SetBatteryPercentage(totalBatteryLife);
+        }
     }
 
     // Yellow Gizmo capsule to see the player bettewr
