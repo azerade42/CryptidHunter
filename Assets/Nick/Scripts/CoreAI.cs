@@ -360,6 +360,7 @@ public class CoreAI : MonoBehaviour
     private void CirclePlayer(float radius, float speed, bool clockwise)
     {
         int dir = clockwise == false ? -1 : 1;
+        dir = 1;
         currentCircleAngle += Time.deltaTime * speed;
         if (currentCircleAngle >= Mathf.PI * 2)
             currentCircleAngle = Mathf.PI * -2;

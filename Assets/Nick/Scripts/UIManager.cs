@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         playerController.equipRightAction += SwitchCrosshair;
+        playerController.aimAction += SwitchCrosshair;
     }
 
     private void SwitchCrosshair()
@@ -23,6 +24,7 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         playerController.equipRightAction -= SwitchCrosshair;
+        playerController.aimAction -= SwitchCrosshair;
     }
 
 

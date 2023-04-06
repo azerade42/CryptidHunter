@@ -1,5 +1,5 @@
 {
-    "name": "PlayerController",
+    "name": "NickPlayerController",
     "maps": [
         {
             "name": "Player",
@@ -70,12 +70,12 @@
                 },
                 {
                     "name": "AimDownSight",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "911a0316-3882-4eb7-b994-4e2a4796a299",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Pickup",

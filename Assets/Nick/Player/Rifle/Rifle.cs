@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Rifle : MonoBehaviour
 {
+    UnityAction rifleHit;
     [SerializeField] private NickPlayerController playerController;
     [SerializeField] private LayerMask aimColliderMask = new LayerMask();
     
     [SerializeField] private ParticleSystem muzzleFlash;
-    
     [SerializeField] private ParticleSystem hitParticle;
 
     void OnEnable()
@@ -18,10 +19,25 @@ public class Rifle : MonoBehaviour
 
     void FireRifle()
     {
-        // Changes based on PS1 render texture
-        Vector2 screenCenterPoint = new Vector2(256f/2, 224f/2);
+        Camera currentCam;
+        float resolutionX, resolutionY;
+
+        if (playerController.isAiming)
+        {
+            currentCam = playerController.scopeCamera;
+            resolutionX = resolutionY = 216f;
+        }
+        else
+        {
+            currentCam = Camera.main;
+            resolutionX = 384f;
+            resolutionY = 216f;
+        }
+
+        // Changes based on PS1 render texture & scope render texture
+        Vector2 screenCenterPoint = new Vector2(resolutionX/2, resolutionY/2);
         
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        Ray ray = currentCam.ScreenPointToRay(screenCenterPoint);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, aimColliderMask))
         {
             playerController.StartShotTime = Time.time;
@@ -31,23 +47,32 @@ public class Rifle : MonoBehaviour
 
             GameObject whatIsHit = raycastHit.transform.gameObject;
 
-            if (whatIsHit.CompareTag("Enemy"))
+            if (whatIsHit.CompareTag("Weakpoint"))
             {
                 Debug.Log("HIT TARGET");
 
-                bool died = whatIsHit.GetComponent<Enemy>().ChangeHealth(-1);
+                //bool died = whatIsHit.GetComponent<Enemy>().ChangeHealth(-1);
+                if (rifleHit != null)
+                    rifleHit.Invoke();
 
-                if (!died)
-                {
-                    ParticleSystem explosion = Instantiate(hitParticle, raycastHit.point, Quaternion.identity, whatIsHit.transform);
-                    Destroy(explosion.gameObject, 1f);
-                }
+                 ObjectPooler.Instance.SpawnFromPool("Explosion", raycastHit.point, Quaternion.identity, whatIsHit.transform);
+
+                 whatIsHit.GetComponent<MeshRenderer>().enabled = false;
+
+                 // Instantiate blue explosion or something
+
+                // if (!died)
+                // {
+                //     ParticleSystem explosion = Instantiate(hitParticle, raycastHit.point, Quaternion.identity, whatIsHit.transform);
+                //     Destroy(explosion.gameObject, 1f);
+                // }
             }
             else
             {
                 Debug.Log("HIT OBJECT");
-                ParticleSystem explosion = Instantiate(hitParticle, raycastHit.point, Quaternion.identity);
-                Destroy(explosion.gameObject, 1f);
+                // ParticleSystem explosion = Instantiate(hitParticle, raycastHit.point, Quaternion.identity);
+                ObjectPooler.Instance.SpawnFromPool("Explosion", raycastHit.point, Quaternion.identity, ObjectPooler.Instance.gameObject.transform);
+                // Destroy(explosion.gameObject, 1f);
             }
         }
     }

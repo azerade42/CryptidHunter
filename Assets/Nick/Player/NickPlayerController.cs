@@ -9,6 +9,7 @@ public class NickPlayerController : MonoBehaviour
 {
 
     public UnityAction fireAction;
+    public UnityAction aimAction;
     public UnityAction equipRightAction;
 
     private Rigidbody rb;
@@ -16,7 +17,7 @@ public class NickPlayerController : MonoBehaviour
     private float curSpeed, curJumpForce;
     private float lookRotation;
     private bool isHoldingGun, isHoldingFlashlight;
-    public bool isPickingUp;
+    public bool isPickingUp, isAiming;
 
     [Header("Player Controller")]
     public float speed;
@@ -24,6 +25,7 @@ public class NickPlayerController : MonoBehaviour
     public bool grounded;
 
     [SerializeField] private Transform camHolder;
+    [SerializeField] public Camera scopeCamera;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Mesh gizmoMesh;
@@ -95,7 +97,26 @@ public class NickPlayerController : MonoBehaviour
 
     public void OnAimDownSight(InputAction.CallbackContext context)
     {
-        AimDownSight();
+        if (!isShooting && context.started)
+        {
+            scopeCamera.gameObject.SetActive(true);
+
+            isAiming = true;
+            anim.SetBool("isAimingGun", true);
+            
+            AimDownSight();
+
+            if (aimAction != null)
+                aimAction.Invoke();
+        }
+        else if (!isShooting && context.canceled)
+        {
+            anim.SetBool("isAimingGun", false);
+            isAiming = false;
+
+            if (aimAction != null)
+                aimAction.Invoke();
+        }
     }
 
     public void OnFire(InputAction.CallbackContext context)
@@ -223,7 +244,7 @@ public class NickPlayerController : MonoBehaviour
 
     private void AimDownSight()
     {
-
+        
     }
 
     private void Fire()
@@ -233,6 +254,8 @@ public class NickPlayerController : MonoBehaviour
         timeSinceShot = Time.time - startShotTime;
 
         if (timeSinceShot < 1f) return;
+
+        CameraShake.Shake(1f, 1.5f);
 
         if (fireAction != null)
             fireAction.Invoke();
