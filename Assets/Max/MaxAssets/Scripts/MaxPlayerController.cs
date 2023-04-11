@@ -2,32 +2,68 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class MaxPlayerController : MonoBehaviour
 {
+
+    public UnityAction fireAction;
+    public UnityAction equipRightAction;
+
     private Rigidbody rb;
-    [SerializeField] private Transform camHolder;
     private Vector2 move, look;
-    public float speed, sens, maxForce, jumpForce, crouchSpeed;
     private float curSpeed, curJumpForce;
     private float lookRotation;
-    public bool grounded;
-    public bool nightVisToggle;
-    public float batteryPercent;
-    public float totalBatteryLife = 10.0f;
+    private bool isHoldingGun, isHoldingFlashlight;
+    public bool isPickingUp;
 
-    public BatteryPercent batBar;
-    [SerializeField] private Volume nightVisComponent;
+    [Header("Player Controller")]
+    public float speed;
+    public float sens, maxForce, jumpForce, crouchSpeed;
+    public bool grounded;
+
+    [SerializeField] private Transform camHolder;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Mesh gizmoMesh;
+    public Animator anim;
+
+    [SerializeField] private GameObject flashlight;
+
+    // [Space(5)]
+    // [Header("Rifle")]
+    [SerializeField] private GameObject gun;
+
+    [SerializeField] private AudioSource footSteps;
+
+    bool footstepsEnabled;
+
+    private float startShotTime, timeSinceShot;
+    private bool isShooting;
+    
+    public float StartShotTime
+    {
+        get { return startShotTime; }
+        set { startShotTime = value; }
+    }
 
     public bool Grounded
     {
         get { return grounded; }
     }
+
+    // public Transform debugTransform;
+
+    // /////////////////// MAX /////////////////
+    public BatteryPercent batBar;
+    [SerializeField] private Volume nightVisComponent;
+    public bool nightVisToggle;
+    private float batteryPercent;
+    public float totalBatteryLife = 100.0f;
+    public ItemPickUp itemPickupScript;
+    // ////////////////////////////////////////////
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -43,10 +79,38 @@ public class MaxPlayerController : MonoBehaviour
     {
         Jump();
     }
-    public void OnNightVision(InputAction.CallbackContext context)
+
+    public void OnEquipLeft(InputAction.CallbackContext context)
     {
-        NightVision();
-        NightVisionBattery();
+        EquipLeft();
+    }
+
+    public void OnEquipRight(InputAction.CallbackContext context)
+    {
+        EquipRight();
+    }
+
+    public void OnPickup(InputAction.CallbackContext context)
+    {
+        Pickup();
+    }
+
+    public void OnAimDownSight(InputAction.CallbackContext context)
+    {
+        AimDownSight();
+    }
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if (!isShooting && context.performed && !isPickingUp)
+        {
+            Fire();
+            isShooting = true;
+        }
+        else if (context.canceled)
+        {
+            isShooting = false;
+        }       
     }
 
     public void OnCrouch(InputAction.CallbackContext context)
@@ -55,10 +119,15 @@ public class MaxPlayerController : MonoBehaviour
         {
             Crouch();
         }
-        else if (context.canceled)
+        else if (grounded && context.canceled)
         {
             Uncrouch();
         }
+    }
+
+    public void OnNightVision(InputAction.CallbackContext context)
+    {
+        NightVision();
     }
 
     void Start()
@@ -68,16 +137,30 @@ public class MaxPlayerController : MonoBehaviour
         curSpeed = speed;
         curJumpForce = jumpForce;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        nightVisComponent.enabled = false;
-        nightVisToggle = false;
+        timeSinceShot = Mathf.Infinity;
+        gun.gameObject.SetActive(false);
+        isHoldingFlashlight = true;
         batteryPercent = totalBatteryLife;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void FixedUpdate()
     {
         Move();
         grounded = isGrounded();
+        if (nightVisToggle == true)
+        {
+            batteryPercent = batteryPercent - 1.05f;
+            //Debug.Log(batteryPercent);
+        }
+        NightVisionBattery();
+        if(batteryPercent <= 0.0f)
+        {
+            nightVisComponent.enabled = false;
+            nightVisToggle = false;
+            batBar.BatteryVisible(nightVisToggle);
+        }
     }
 
     void LateUpdate()
@@ -102,6 +185,15 @@ public class MaxPlayerController : MonoBehaviour
         Vector3.ClampMagnitude(velocityChange, maxForce);
 
         rb.AddForce(velocityChange, ForceMode.VelocityChange);
+
+        float hozSpeed = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
+
+        anim.SetFloat("Speed", hozSpeed);
+
+        if (!footstepsEnabled && grounded && hozSpeed > 0.5f)
+            footSteps.enabled = true;
+        else if (footstepsEnabled || !grounded || hozSpeed <= 0.5f)
+            footSteps.enabled = false;
     }
 
     private void Look()
@@ -109,7 +201,7 @@ public class MaxPlayerController : MonoBehaviour
         transform.Rotate(Vector3.up * look.x * sens);
 
         lookRotation += -(look.y) * sens;
-        lookRotation = Mathf.Clamp(lookRotation, -90, 70);
+        lookRotation = Mathf.Clamp(lookRotation, -90, 50);
         camHolder.eulerAngles = new Vector3(lookRotation, camHolder.eulerAngles.y, camHolder.eulerAngles.z);
 
     }
@@ -142,31 +234,72 @@ public class MaxPlayerController : MonoBehaviour
         return Physics.CheckSphere(groundCheck.position, 0.5f, whatIsGround);
     }
 
-    private void NightVision()
+
+    private void AimDownSight()
     {
 
-        if(nightVisToggle != true)
+    }
+
+    private void Fire()
+    {
+        if (!isHoldingGun) return;
+
+        timeSinceShot = Time.time - startShotTime;
+
+        if (timeSinceShot < 1f) return;
+
+        if (fireAction != null)
+            fireAction.Invoke();
+    }
+
+    // Cycles between flashlight and rifle
+    private void EquipRight()
+    {
+        timeSinceShot = Time.time - startShotTime;
+        if (timeSinceShot < 1f) return;
+
+        if (equipRightAction != null)
+            equipRightAction.Invoke();
+
+        isHoldingGun = !isHoldingGun;
+        isHoldingFlashlight = !isHoldingFlashlight;
+        gun.SetActive(isHoldingGun);
+        flashlight.SetActive(isHoldingFlashlight);
+        anim.SetBool("isHoldingGun", isHoldingGun);
+    }
+
+    // Cycles between talisman and consumables
+    private void EquipLeft()
+    {
+        
+    }
+
+    private void Pickup()
+    {
+        anim.SetTrigger("Pickup");
+        itemPickupScript.Pickup();
+    }
+
+    private void NightVision()
+    {
+        if((nightVisToggle != true) && (batteryPercent >= 0.0f))
         {
             nightVisComponent.enabled =  !nightVisComponent.enabled;
             nightVisToggle = true;
         }
         else
         {
-            nightVisComponent.enabled = !nightVisComponent.enabled;
+            nightVisComponent.enabled = false;
             nightVisToggle = false;
         }
+        batBar.BatteryVisible(nightVisToggle);
     }
     public void NightVisionBattery()
     {
-        while(nightVisToggle == true)
-        {
-            if (batteryPercent >= 0.0)
-            {
-                batteryPercent = totalBatteryLife/Time.deltaTime;
-            }
-            batBar.SetBatteryPercentage(totalBatteryLife);
-        }
+        batBar.SetBatteryPercentage(batteryPercent);
     }
+
+    // Yellow Gizmo capsule to see the player bettewr
 
     #if UNITY_EDITOR
     void OnDrawGizmos()
