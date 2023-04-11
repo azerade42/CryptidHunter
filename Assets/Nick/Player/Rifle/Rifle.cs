@@ -5,12 +5,13 @@ using UnityEngine.Events;
 
 public class Rifle : MonoBehaviour
 {
-    UnityAction rifleHit;
+    public UnityAction rifleHit;
     [SerializeField] private NickPlayerController playerController;
     [SerializeField] private LayerMask aimColliderMask = new LayerMask();
     
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private ParticleSystem hitParticle;
+    [SerializeField] private AudioSource gunshotNoise;
 
     void OnEnable()
     {
@@ -19,6 +20,10 @@ public class Rifle : MonoBehaviour
 
     void FireRifle()
     {
+        playerController.StartShotTime = Time.time;
+        muzzleFlash.Play();
+        gunshotNoise.Play();
+
         Camera currentCam;
         float resolutionX, resolutionY;
 
@@ -40,9 +45,6 @@ public class Rifle : MonoBehaviour
         Ray ray = currentCam.ScreenPointToRay(screenCenterPoint);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, aimColliderMask))
         {
-            playerController.StartShotTime = Time.time;
-
-            muzzleFlash.Play();
             playerController.anim.SetTrigger("RifleShot");
 
             GameObject whatIsHit = raycastHit.transform.gameObject;
@@ -58,6 +60,7 @@ public class Rifle : MonoBehaviour
                  ObjectPooler.Instance.SpawnFromPool("Explosion", raycastHit.point, Quaternion.identity, whatIsHit.transform);
 
                  whatIsHit.GetComponent<MeshRenderer>().enabled = false;
+                 whatIsHit.GetComponent<SphereCollider>().enabled = false;
 
                  // Instantiate blue explosion or something
 

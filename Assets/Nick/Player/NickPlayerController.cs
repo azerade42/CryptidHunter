@@ -10,6 +10,7 @@ public class NickPlayerController : MonoBehaviour
 
     public UnityAction fireAction;
     public UnityAction aimAction;
+    public UnityAction damageAction;
     public UnityAction equipRightAction;
 
     private Rigidbody rb;
@@ -23,6 +24,15 @@ public class NickPlayerController : MonoBehaviour
     public float speed;
     public float sens, maxForce, jumpForce, crouchSpeed;
     public bool grounded;
+
+    private float health = 100f;
+
+    public float Health
+    {
+        get { return health; }
+    }
+    [SerializeField] private float invulnerabilityTime;
+    private float startHitTime, timeSinceHit;
 
     [SerializeField] private Transform camHolder;
     [SerializeField] public Camera scopeCamera;
@@ -157,6 +167,7 @@ public class NickPlayerController : MonoBehaviour
         curSpeed = speed;
         curJumpForce = jumpForce;
 
+        timeSinceHit = Mathf.Infinity;
         timeSinceShot = Mathf.Infinity;
         gun.gameObject.SetActive(false);
         isHoldingFlashlight = true;
@@ -312,6 +323,34 @@ public class NickPlayerController : MonoBehaviour
             }
             batBar.SetBatteryPercentage(totalBatteryLife);
         }
+    }  
+
+    public void Damage(float damageTaken)
+    {
+        timeSinceHit = Time.time - startHitTime;
+        if (timeSinceHit < invulnerabilityTime)
+        {
+            return;
+        }
+
+        startHitTime = Time.time;
+
+        health -= damageTaken;
+        health = Mathf.Clamp(health, 0, 100);
+
+        damageAction.Invoke();
+
+        Debug.Log("OUCH!");
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Debug.Log("dead");
     }
 
     // Yellow Gizmo capsule to see the player bettewr

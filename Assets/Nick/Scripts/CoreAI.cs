@@ -128,6 +128,12 @@ public class CoreAI : MonoBehaviour
     [Tooltip("Animator for the enemy")]
     public Animator anim;
 
+    [SerializeField] private Rifle rifle;
+
+    public void OnEnable()
+    {
+        rifle.rifleHit += AIHit;
+    }
     private void Start()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -166,7 +172,7 @@ public class CoreAI : MonoBehaviour
 
                 TargetCheck(_proximityRadius, _proximityAngle);
 
-                ChangeRendererColors(_enemyWanderingColor);
+                // ChangeRendererColors(_enemyWanderingColor);
                 anim.SetBool("isChasingPlayer", _isChasingPlayer);
 
                 break;
@@ -178,7 +184,7 @@ public class CoreAI : MonoBehaviour
                     FleeFromPlayer();
                     
                     _navMeshAgent.speed = _fleeSpeed;
-                    ChangeRendererColors(_enemyFleeingColor);
+                    // ChangeRendererColors(_enemyFleeingColor);
                 }
                 else
                 {
@@ -339,11 +345,11 @@ public class CoreAI : MonoBehaviour
         // Change the color of the enemy based on if they can see the player or are searching
         if (_canSeePlayer == true)
         {
-            ChangeRendererColors(_enemyAttackingColor);
+            // ChangeRendererColors(_enemyAttackingColor);
         }
         else
         {
-            ChangeRendererColors(_enemySearchingColor);
+            // ChangeRendererColors(_enemySearchingColor);
         }
         TargetCheck(_FOVRadius, _FOVAngle);
     }
@@ -376,6 +382,19 @@ public class CoreAI : MonoBehaviour
         {
             r.material = newMat;
         }
+    }
+
+    private void OnTriggerStay(Collider collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<NickPlayerController>().Damage(10f);
+        }
+    }
+
+    private void AIHit()
+    {
+        print("ooo");
     }
 
     void OnDrawGizmos()
