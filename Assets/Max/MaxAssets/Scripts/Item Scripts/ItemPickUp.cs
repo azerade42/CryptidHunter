@@ -10,5 +10,14 @@ public class ItemPickUp : MonoBehaviour
     {
         InventoryManager.Instance.Add(item);
         Destroy(gameObject);
+        InventoryManager.Instance.ListItems();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Pickup();
+        }
     }
 }

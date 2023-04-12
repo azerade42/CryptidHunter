@@ -62,7 +62,7 @@ public class MaxPlayerController : MonoBehaviour
     public bool nightVisToggle;
     private float batteryPercent;
     public float totalBatteryLife = 100.0f;
-    public ItemPickUp itemPickupScript;
+    //ItemPickUp itemPickupScript;
     // ////////////////////////////////////////////
 
     public void OnMove(InputAction.CallbackContext context)
@@ -151,7 +151,7 @@ public class MaxPlayerController : MonoBehaviour
         grounded = isGrounded();
         if (nightVisToggle == true)
         {
-            batteryPercent = batteryPercent - 1.05f;
+            batteryPercent = batteryPercent - 0.05f;
             //Debug.Log(batteryPercent);
         }
         NightVisionBattery();
@@ -277,7 +277,7 @@ public class MaxPlayerController : MonoBehaviour
     private void Pickup()
     {
         anim.SetTrigger("Pickup");
-        itemPickupScript.Pickup();
+        //itemPickupScript.Pickup();
     }
 
     private void NightVision()

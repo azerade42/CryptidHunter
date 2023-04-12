@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a1ff3d17b0808d488e6806a262babab, type: 3}
   m_Name: Rifle
   m_EditorClassIdentifier: 
-  id: 1
-  itemName: Hunting Rifle
+  id: 0
+  itemName: Rifle
+  value: 0
   icon: {fileID: 21300000, guid: 9b90a1b455612da4dad6a20a26d7ac7e, type: 3}
