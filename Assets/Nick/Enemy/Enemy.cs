@@ -5,9 +5,8 @@ using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {    
-    public UnityAction nearPlayer;
-    public UnityAction leavePlayer;
-    
+    public UnityAction die;
+
     private float health;
     private bool hasDied;
     public float Health
@@ -48,6 +47,7 @@ public class Enemy : MonoBehaviour
         AddWeakpoints();      
     }
 
+    // Add the weakpoints to the verticies of the cryptid
     private GameObject [] AddWeakpoints()
     {
         weakpoints = new GameObject[numWeakpoints];
@@ -59,7 +59,7 @@ public class Enemy : MonoBehaviour
             
             Vector3 randomVertexPos = bodyMesh.sharedMesh.vertices[Random.Range(0, len)];
             
-            // Generate a random vertex for the weakpoint
+            // Keep generating a random vertex for the weakpoint until it's on the visible side
             while (!(randomVertexPos.x > -0.035f && randomVertexPos.x < 0.045f) || randomVertexPos.y < -0.01f || !(randomVertexPos.z > 0.005f))
             {
                 randomVertexPos = bodyMesh.sharedMesh.vertices[Random.Range(0, len)];
@@ -69,13 +69,12 @@ public class Enemy : MonoBehaviour
             }
 
             // Correct the random vertex
-            Vector3 weakpointPosition = transform.position //+ meshPivotPointCorrection 
+            Vector3 weakpointPosition = meshHolder.transform.position
                 + Quaternion.Euler(meshHolder.transform.eulerAngles) * randomVertexPos * meshHolder.transform.localScale.x;
             
+            // Instantiate the weakpoint
             GameObject wp = Instantiate(weakpointObject, weakpointPosition, Quaternion.identity, cryptidObject.transform);
             weakpoints[i] = wp;
-            
-            wp.transform.localScale *= 0;
         }
 
         return weakpoints;
@@ -137,13 +136,16 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        if (die != null)
+            die.Invoke();
+
         audioSource.pitch = 1f;
         audioSource.clip = deathSound;
         audioSource.Play();
 
         StartCoroutine(SetInactive(deathSound.length));
 
-        GameObject explosion = ObjectPooler.Instance.SpawnFromPool("Explosion", transform.position, Quaternion.identity, meshHolder.transform);
+        GameObject explosion = ObjectPooler.Instance.SpawnFromPool("Explosion", transform.position, Quaternion.identity, transform.parent.transform);
         if (explosion.GetComponent<ParticleSystem>() != null)
         {
             var explosionMain = explosion.GetComponent<ParticleSystem>().main;
@@ -153,7 +155,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator SetInactive(float timeBeforeDestroying)
     {
-        foreach (Transform child in meshHolder.transform)
+        foreach (Transform child in transform)
             child.gameObject.SetActive(false);
             
         cryptidObject.GetComponent<SphereCollider>().enabled = false;

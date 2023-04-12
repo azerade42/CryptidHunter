@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 public class CoreAI : MonoBehaviour
 {
+    public UnityAction nearPlayer;
+    public UnityAction leavePlayer;
+
     // Handles each state of behavior the AI is in, they're like constants
     // Apply specific instructions based on the state and run them every frame
     private enum AIState

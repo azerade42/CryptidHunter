@@ -71,8 +71,8 @@ public class NickPlayerController : MonoBehaviour
     public BatteryPercent batBar;
     [SerializeField] private Volume nightVisComponent;
     public bool nightVisToggle;
-    public float batteryPercent;
-    public float totalBatteryLife = 10.0f;
+    private float batteryPercent;
+    public float totalBatteryLife = 100.0f;
     // ////////////////////////////////////////////
 
     public void OnMove(InputAction.CallbackContext context)
@@ -157,7 +157,6 @@ public class NickPlayerController : MonoBehaviour
     public void OnNightVision(InputAction.CallbackContext context)
     {
         NightVision();
-        NightVisionBattery();
     }
 
     void Start()
@@ -172,6 +171,8 @@ public class NickPlayerController : MonoBehaviour
         gun.gameObject.SetActive(false);
         isHoldingFlashlight = true;
 
+        batteryPercent = totalBatteryLife;
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -179,6 +180,24 @@ public class NickPlayerController : MonoBehaviour
     {
         Move();
         grounded = isGrounded();
+    }
+
+    void Update()
+    {
+        // MAX /////////////////////////
+        if (nightVisToggle == true)
+        {
+            batteryPercent = batteryPercent - 0.05f;
+            //Debug.Log(batteryPercent);
+        }
+        NightVisionBattery();
+        if(batteryPercent <= 0.0f)
+        {
+            nightVisComponent.enabled = false;
+            nightVisToggle = false;
+            batBar.BatteryVisible(nightVisToggle);
+        }
+        /////////////////////////////////
     }
 
     void LateUpdate()
@@ -301,29 +320,22 @@ public class NickPlayerController : MonoBehaviour
 
     private void NightVision()
     {
-
-        if(nightVisToggle != true)
+        if((nightVisToggle != true) && (batteryPercent >= 0.0f))
         {
             nightVisComponent.enabled =  !nightVisComponent.enabled;
             nightVisToggle = true;
         }
         else
         {
-            nightVisComponent.enabled = !nightVisComponent.enabled;
+            nightVisComponent.enabled = false;
             nightVisToggle = false;
         }
+        batBar.BatteryVisible(nightVisToggle);
     }
     public void NightVisionBattery()
     {
-        if (nightVisToggle == true)
-        {
-            if (batteryPercent >= 0.0)
-            {
-                batteryPercent = totalBatteryLife/Time.deltaTime;
-            }
-            batBar.SetBatteryPercentage(totalBatteryLife);
-        }
-    }  
+        batBar.SetBatteryPercentage(batteryPercent);
+    }
 
     public void Damage(float damageTaken)
     {
