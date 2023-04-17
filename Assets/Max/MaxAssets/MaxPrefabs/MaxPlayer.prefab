@@ -1092,6 +1092,8 @@ GameObject:
   - component: {fileID: 7786399133158160162}
   - component: {fileID: 3997250671512426145}
   - component: {fileID: 2573962930699009267}
+  - component: {fileID: 12608999175863314}
+  - component: {fileID: 6860819284731095840}
   m_Layer: 7
   m_Name: MaxPlayer
   m_TagString: Player
@@ -1477,6 +1479,38 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &12608999175863314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3997250671512426175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50a520d4bdd2bb45a040ffe8dd94028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textBox: {fileID: 0}
+  samLines: []
+  textSpeed: 0
+  dialogue: {fileID: 0}
+--- !u!114 &6860819284731095840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3997250671512426175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50a520d4bdd2bb45a040ffe8dd94028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textBox: {fileID: 0}
+  samLines: []
+  textSpeed: 0
+  dialogue: {fileID: 0}
 --- !u!1 &3997250671520614304
 GameObject:
   m_ObjectHideFlags: 0
