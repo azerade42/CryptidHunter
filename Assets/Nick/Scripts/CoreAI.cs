@@ -5,9 +5,6 @@ using UnityEngine.AI;
 using UnityEngine.Events;
 public class CoreAI : MonoBehaviour
 {
-    public UnityAction nearPlayer;
-    public UnityAction leavePlayer;
-
     // Handles each state of behavior the AI is in, they're like constants
     // Apply specific instructions based on the state and run them every frame
     private enum AIState
@@ -136,8 +133,23 @@ public class CoreAI : MonoBehaviour
 
     public void OnEnable()
     {
-        rifle.rifleHit += AIHit;
+        EventManager.Instance.rifleHit += AIHit;
     }
+
+    public void OnDisable()
+    {
+        EventManager.Instance.rifleHit -= AIHit;
+    }
+
+    public void Spawn(Talisman talisman)
+    {
+        Transform spawnPoint = talisman.spawnPoints[Random.Range(0, talisman.spawnPoints.Count)];
+        transform.position = spawnPoint.position;
+
+        if (EventManager.Instance.nearPlayer != null)
+            EventManager.Instance.nearPlayer.Invoke();
+    }
+
     private void Start()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -147,7 +159,6 @@ public class CoreAI : MonoBehaviour
     }
     private void Update()
     {
-        _AIState = AIState.Panic;
         switch (_AIState)
         {
             case AIState.Passive:
@@ -192,6 +203,7 @@ public class CoreAI : MonoBehaviour
                 }
                 else
                 {
+                    _AIState = AIState.Panic;
                     ChasePlayer();
 
                     _navMeshAgent.speed = _attackSpeed;

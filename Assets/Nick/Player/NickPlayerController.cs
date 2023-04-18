@@ -7,12 +7,6 @@ using UnityEngine.Rendering;
 
 public class NickPlayerController : MonoBehaviour
 {
-
-    public UnityAction fireAction;
-    public UnityAction aimAction;
-    public UnityAction damageAction;
-    public UnityAction equipRightAction;
-
     private Rigidbody rb;
     private Vector2 move, look;
     private float curSpeed, curJumpForce;
@@ -116,16 +110,16 @@ public class NickPlayerController : MonoBehaviour
             
             AimDownSight();
 
-            if (aimAction != null)
-                aimAction.Invoke();
+            if (EventManager.Instance.aimAction != null)
+                EventManager.Instance.aimAction.Invoke();
         }
         else if (!isShooting && context.canceled)
         {
             anim.SetBool("isAimingGun", false);
             isAiming = false;
 
-            if (aimAction != null)
-                aimAction.Invoke();
+            if (EventManager.Instance.aimAction != null)
+                EventManager.Instance.aimAction.Invoke();
         }
     }
 
@@ -287,8 +281,8 @@ public class NickPlayerController : MonoBehaviour
 
         CameraShake.Shake(1f, 1.5f);
 
-        if (fireAction != null)
-            fireAction.Invoke();
+        if (EventManager.Instance.fireAction != null)
+            EventManager.Instance.fireAction.Invoke();
     }
 
     // Cycles between flashlight and rifle
@@ -297,8 +291,8 @@ public class NickPlayerController : MonoBehaviour
         timeSinceShot = Time.time - startShotTime;
         if (timeSinceShot < 1f) return;
 
-        if (equipRightAction != null)
-            equipRightAction.Invoke();
+        if (EventManager.Instance.equipRightAction != null)
+            EventManager.Instance.equipRightAction.Invoke();
 
         isHoldingGun = !isHoldingGun;
         isHoldingFlashlight = !isHoldingFlashlight;
@@ -350,7 +344,8 @@ public class NickPlayerController : MonoBehaviour
         health -= damageTaken;
         health = Mathf.Clamp(health, 0, 100);
 
-        damageAction.Invoke();
+        if (EventManager.Instance.damageAction != null)
+            EventManager.Instance.damageAction.Invoke();
 
         Debug.Log("OUCH!");
 

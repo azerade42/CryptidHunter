@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Rifle : MonoBehaviour
 {
-    public UnityAction rifleHit;
+    
     [SerializeField] private NickPlayerController playerController;
     [SerializeField] private LayerMask aimColliderMask = new LayerMask();
     
@@ -15,7 +14,12 @@ public class Rifle : MonoBehaviour
 
     void OnEnable()
     {
-        playerController.fireAction += FireRifle;
+        EventManager.Instance.fireAction += FireRifle;
+    }
+
+    void OnDisable()
+    {
+        EventManager.Instance.fireAction -= FireRifle;
     }
 
     void FireRifle()
@@ -54,8 +58,8 @@ public class Rifle : MonoBehaviour
                 Debug.Log("HIT TARGET");
 
                 //bool died = whatIsHit.GetComponent<Enemy>().ChangeHealth(-1);
-                if (rifleHit != null)
-                    rifleHit.Invoke();
+                if (EventManager.Instance.rifleHit != null)
+                    EventManager.Instance.rifleHit.Invoke();
 
                  ObjectPooler.Instance.SpawnFromPool("Explosion", raycastHit.point, Quaternion.identity, whatIsHit.transform);
 
@@ -78,10 +82,5 @@ public class Rifle : MonoBehaviour
                 // Destroy(explosion.gameObject, 1f);
             }
         }
-    }
-
-    void OnDisable()
-    {
-        playerController.fireAction -= FireRifle;
     }
 }

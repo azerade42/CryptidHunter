@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
-{    
-    public UnityAction die;
-
+{
     private float health;
     private bool hasDied;
     public float Health
@@ -37,7 +34,12 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        rifle.rifleHit += HitWeakpoint;
+        EventManager.Instance.rifleHit += HitWeakpoint;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.rifleHit -= HitWeakpoint;
     }
 
     private void Start()
@@ -136,8 +138,8 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        if (die != null)
-            die.Invoke();
+        if (EventManager.Instance.enemyDie != null)
+            EventManager.Instance.enemyDie.Invoke();
 
         audioSource.pitch = 1f;
         audioSource.clip = deathSound;

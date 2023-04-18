@@ -14,9 +14,16 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        playerController.equipRightAction += SwitchCrosshair;
-        playerController.aimAction += SwitchCrosshair;
-        playerController.damageAction += Damaged;
+        EventManager.Instance.equipRightAction += SwitchCrosshair;
+        EventManager.Instance.aimAction += SwitchCrosshair;
+        EventManager.Instance.damageAction += Damaged;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.equipRightAction -= SwitchCrosshair;
+        EventManager.Instance.aimAction -= SwitchCrosshair;
+        EventManager.Instance.damageAction -= Damaged;
     }
 
     private void Awake()
@@ -43,9 +50,5 @@ public class UIManager : MonoBehaviour
             healthBarBG.sprite = healthbarBGs[2];
     }
 
-    private void OnDisable()
-    {
-        playerController.equipRightAction -= SwitchCrosshair;
-        playerController.aimAction -= SwitchCrosshair;
-    }
+    
 }

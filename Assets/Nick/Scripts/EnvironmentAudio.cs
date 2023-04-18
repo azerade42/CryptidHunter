@@ -7,8 +7,7 @@ public class EnvironmentAudio : MonoBehaviour
     [SerializeField] private AudioClip crickets;
     [SerializeField] private AudioClip bossMusic;
 
-    [SerializeField] private CoreAI cryptid;
-    [SerializeField] private Enemy enemy;
+    //[SerializeField] private Enemy enemy;
 
     private AudioSource audioSource;
 
@@ -19,13 +18,14 @@ public class EnvironmentAudio : MonoBehaviour
 
     void OnEnable()
     {
-        cryptid.nearPlayer += EnableCryptidSounds;
-        cryptid.leavePlayer += DisableCryptidSounds;
+        EventManager.Instance.nearPlayer += EnableCryptidSounds;
+        EventManager.Instance.leavePlayer += DisableCryptidSounds;
     }
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        DisableCryptidSounds();
     }
 
     // void Update()
@@ -52,14 +52,14 @@ public class EnvironmentAudio : MonoBehaviour
     void EnableCryptidSounds()
     {
         audioSource.clip = bossMusic;
-        audioSource.volume = 0.25f;
+        audioSource.volume = 0.23f;
         audioSource.Play();
     }
 
     void DisableCryptidSounds()
     {
         audioSource.clip = crickets;
-        audioSource.volume = 0.003f;
+        audioSource.volume = 0.005f;
         audioSource.Play();
     }
 }
