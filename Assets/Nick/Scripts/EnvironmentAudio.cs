@@ -9,23 +9,25 @@ public class EnvironmentAudio : MonoBehaviour
 
     //[SerializeField] private Enemy enemy;
 
-    private AudioSource audioSource;
+    private static AudioSource audioSource;
 
     // private bool soundsDisabled;
     // private float timeSinceLastPlay;
     // private float lastPitch = 1f;
     // private float delay;
 
-    void OnEnable()
+    void Start()
     {
         EventManager.Instance.nearPlayer += EnableCryptidSounds;
         EventManager.Instance.leavePlayer += DisableCryptidSounds;
-    }
-
-    void Start()
-    {
         audioSource = GetComponent<AudioSource>();
         DisableCryptidSounds();
+    }
+
+    void OnDisable()
+    {
+        EventManager.Instance.nearPlayer -= EnableCryptidSounds;
+        EventManager.Instance.leavePlayer -= DisableCryptidSounds;
     }
 
     // void Update()
@@ -52,14 +54,46 @@ public class EnvironmentAudio : MonoBehaviour
     void EnableCryptidSounds()
     {
         audioSource.clip = bossMusic;
-        audioSource.volume = 0.23f;
+        audioSource.volume = 0.20f;
         audioSource.Play();
     }
 
     void DisableCryptidSounds()
     {
-        audioSource.clip = crickets;
-        audioSource.volume = 0.005f;
+        StartCoroutine(LerpAudio(5f, crickets, 0.008f));
+    }
+
+    private static IEnumerator LerpAudio(float lerpTime, AudioClip newClip, float endVolume)
+    {
+        Debug.Log("goodbye cryptid sounds");
+        float startVolume = audioSource.volume;
+        float curTime = 0;
+
+        lerpTime *= 0.5f;
+
+        while (curTime < lerpTime)
+        {
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, curTime/lerpTime);
+            curTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        curTime = 0;
+        audioSource.clip = newClip;
         audioSource.Play();
+
+        while (curTime < lerpTime)
+        {
+            Debug.Log("hello crickets");
+            audioSource.volume = Mathf.Lerp(0f, endVolume, curTime/lerpTime);
+            curTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        
+
+        yield return null;
     }
 }

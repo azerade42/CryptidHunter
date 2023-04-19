@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Talisman : MonoBehaviour
 {
-    [SerializeField] public Transform spawnPointHolder;
+    public Transform spawnPointHolder;
 
     [HideInInspector]
     public List<Transform> spawnPoints;
 
     private bool triggered;
 
-    private void Start()
+    private void Awake()
     {
+        spawnPoints = new List<Transform>();
         foreach (Transform trans in spawnPointHolder.GetComponentsInChildren<Transform>())
         {
             if (trans.localPosition == Vector3.zero) continue;

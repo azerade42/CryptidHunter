@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject meshHolder;
     [SerializeField] private GameObject cryptidObject;
     [SerializeField] private MeshFilter bodyMesh;
+    [SerializeField] private Renderer shader;
+    [SerializeField] private Light bellyLight;
     private Vector3 meshPivotPointCorrection;
 
     [SerializeField] private GameObject weakpointObject;
@@ -120,50 +122,51 @@ public class Enemy : MonoBehaviour
     //     }
     // }
 
-    // public bool ChangeHealth(float healthChange)
-    // {
-    //     if (hasDied) return true;
-
-    //     health += healthChange;
-    //     health = Mathf.Clamp(health, 0, startingHealth);
-
-    //     if (health <= 0)
-    //     {
-    //         Die();
-    //         hasDied = true;
-    //     }
-
-    //     return hasDied;
-    // }
 
     private void Die()
     {
         if (EventManager.Instance.enemyDie != null)
             EventManager.Instance.enemyDie.Invoke();
 
-        audioSource.pitch = 1f;
+        audioSource.pitch = 0.6f;
         audioSource.clip = deathSound;
         audioSource.Play();
 
-        StartCoroutine(SetInactive(deathSound.length));
+        bellyLight.enabled = false;
 
-        GameObject explosion = ObjectPooler.Instance.SpawnFromPool("Explosion", transform.position, Quaternion.identity, transform.parent.transform);
-        if (explosion.GetComponent<ParticleSystem>() != null)
-        {
-            var explosionMain = explosion.GetComponent<ParticleSystem>().main;
-            explosionMain.startSize = 50f;
-        }
+        if (EventManager.Instance.leavePlayer != null)
+            EventManager.Instance.leavePlayer.Invoke();
+
+        StartCoroutine(Dissolve(5.0f));
+
+        // GameObject explosion = ObjectPooler.Instance.SpawnFromPool("Explosion", transform.position, Quaternion.identity, transform.parent.transform);
+        // if (explosion.GetComponent<ParticleSystem>() != null)
+        // {
+        //     var explosionMain = explosion.GetComponent<ParticleSystem>().main;
+        //     explosionMain.startSize = 50f;
+        // }
     }
 
-    IEnumerator SetInactive(float timeBeforeDestroying)
+    IEnumerator Dissolve(float dissolveTime)
     {
-        foreach (Transform child in transform)
-            child.gameObject.SetActive(false);
-            
         cryptidObject.GetComponent<SphereCollider>().enabled = false;
         cryptidObject.GetComponent<AudioSource>().enabled = false;
 
-        yield return new WaitForSeconds(timeBeforeDestroying);
-        gameObject.SetActive(false);
+        float curTime = 0;
+        while (curTime < dissolveTime)
+        {
+            float lerp = Mathf.Lerp(2, -10, curTime/dissolveTime);
+            shader.material.SetFloat("_DissolveHeight", lerp);
+            curTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // // Disable all children of the AI parent
+        // foreach (Transform child in transform)
+        //     child.gameObject.SetActive(false);
+
+        cryptidObject.SetActive(false);
+
+        yield return null;
     }
 }

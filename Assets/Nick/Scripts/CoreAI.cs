@@ -19,7 +19,10 @@ public class CoreAI : MonoBehaviour
         Hostile,
 
         // In this state, the AI will run around frantically in circles around the player
-        Panic
+        Panic,
+
+        // The AI stops in place and stands up
+        Stop
     }
 
     // How long it has been since the AI has "seen" the player
@@ -134,11 +137,13 @@ public class CoreAI : MonoBehaviour
     public void OnEnable()
     {
         EventManager.Instance.rifleHit += AIHit;
+        EventManager.Instance.enemyDie += StopMoving;
     }
 
     public void OnDisable()
     {
         EventManager.Instance.rifleHit -= AIHit;
+        EventManager.Instance.enemyDie -= StopMoving;
     }
 
     public void Spawn(Talisman talisman)
@@ -234,6 +239,15 @@ public class CoreAI : MonoBehaviour
                 CirclePlayer(_circleRadius, _circleSpeed, circlingClockwise);
 
                 break;
+
+            case AIState.Stop:
+
+                _navMeshAgent.speed = 0;
+                _navMeshAgent.acceleration = 0;
+                _navMeshAgent.destination = transform.position;
+
+                break;
+
         }
     }
 
@@ -410,7 +424,12 @@ public class CoreAI : MonoBehaviour
 
     private void AIHit()
     {
-        print("ooo");
+        print("AI Hit (I haven't coded anything here)");
+    }
+
+    private void StopMoving()
+    {
+        _AIState = AIState.Stop;
     }
 
     void OnDrawGizmos()
