@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a1ff3d17b0808d488e6806a262babab, type: 3}
-  m_Name: TestItem
+  m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
+  m_Name: MagazinePickup
   m_EditorClassIdentifier: 
-  id: 1
-  itemName: TestItem
-  value: 0
-  icon: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
-  itemDescription: Test Item Description Here
-  itemType: 0
+  clip: {fileID: 8300000, guid: 1ea75a6baeaef6048bcd4cc352b2d29b, type: 3}
+  subtitles:
+  - They don't make 'em like they used to anymore...
+  delayBetweenLines: 0

@@ -17,3 +17,4 @@ MonoBehaviour:
   value: 0
   icon: {fileID: 21300000, guid: 9b90a1b455612da4dad6a20a26d7ac7e, type: 3}
   itemType: 1
+  itemDescription: Rifle Description Here

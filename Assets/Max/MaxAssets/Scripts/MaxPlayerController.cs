@@ -4,9 +4,6 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
-using UnityEngine.UI;
-using System.Xml;
-using TMPro;
 
 public class MaxPlayerController : MonoBehaviour
 {
@@ -64,7 +61,6 @@ public class MaxPlayerController : MonoBehaviour
     public bool nightVisToggle;
     private float batteryPercent;
     public float totalBatteryLife = 100.0f;
-    public Dialogue dialogueScript;
     // ////////////////////////////////////////////
 
     public void OnMove(InputAction.CallbackContext context)
@@ -143,7 +139,6 @@ public class MaxPlayerController : MonoBehaviour
         gun.gameObject.SetActive(false);
         isHoldingFlashlight = true;
         batteryPercent = totalBatteryLife;
-        dialogueScript = GameObject.Find("DialogueBox").GetComponent<Dialogue>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -294,7 +289,6 @@ public class MaxPlayerController : MonoBehaviour
             nightVisToggle = false;
         }
         batBar.BatteryVisible(nightVisToggle);
-        dialogueScript.NewLine(0);
     }
     public void NightVisionBattery()
     {

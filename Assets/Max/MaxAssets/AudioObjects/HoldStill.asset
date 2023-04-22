@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a1ff3d17b0808d488e6806a262babab, type: 3}
-  m_Name: TestItem
+  m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
+  m_Name: HoldStill
   m_EditorClassIdentifier: 
-  id: 1
-  itemName: TestItem
-  value: 0
-  icon: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
-  itemDescription: Test Item Description Here
-  itemType: 0
+  clip: {fileID: 8300000, guid: f4010ba8f6a746a4f94221a0fead7e2e, type: 3}
+  subtitles:
+  - Hold still dammit!
+  delayBetweenLines: 0
