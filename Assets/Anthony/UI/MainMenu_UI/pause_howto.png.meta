@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 45fbc9a927a2b0f428e3f618bf46c4b9
+guid: 4edf266663620964985288fba9e2ed71
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -115,84 +115,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: pause_resume_bss_0
-      rect:
-        serializedVersion: 2
-        x: 620
-        y: 736
-        width: 650
-        height: 255
-      alignment: 9
-      pivot: {x: 0.5244728, y: 0.41682512}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bf30d1c9c014de649962c28113d02dbe
-      internalID: 824528647
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pause_resume_bss_1
-      rect:
-        serializedVersion: 2
-        x: 622
-        y: 457
-        width: 650
-        height: 253
-      alignment: 9
-      pivot: {x: 0.5217535, y: 0.40918186}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d00a9e9abfe218c4a876a6f0ae504671
-      internalID: 930309194
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pause_resume_bss_2
-      rect:
-        serializedVersion: 2
-        x: 252
-        y: 119
-        width: 1414
-        height: 311
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e6eab3282a206644c87021c72f7cab83
-      internalID: 1764425978
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: e4b5841cf69b6cb42a1f50980b8068c4
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      pause_resume_bss_0: 824528647
-      pause_resume_bss_1: 930309194
-      pause_resume_bss_2: 1764425978
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

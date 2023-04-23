@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5b16053e17400b942ad25f1d7efacb03
+guid: 3416300c2932a394d841243c77f71b3c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -115,84 +115,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: pause_howto_bss_0
-      rect:
-        serializedVersion: 2
-        x: 450
-        y: 425
-        width: 992
-        height: 284
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6faa6abb7ac1bcb429195b7e0dd0746a
-      internalID: -197829509
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pause_howto_bss_1
-      rect:
-        serializedVersion: 2
-        x: 450
-        y: 713
-        width: 990
-        height: 281
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 31aa59bb93802e047ab9a0b28edf77ab
-      internalID: -818640779
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pause_howto_bss_2
-      rect:
-        serializedVersion: 2
-        x: 252
-        y: 116
-        width: 1412
-        height: 311
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 3}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 470994de9a107bd4cab0cfd652277f67
-      internalID: 113930660
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 29c63e8f692feeb46a2ad2b2de32a5e6
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      pause_howto_bss_0: 299713040
-      pause_howto_bss_1: -197829509
-      pause_howto_bss_2: -818640779
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
