@@ -23,6 +23,6 @@ public class ItemDescription : MonoBehaviour
 
     public void SetDescription()
     {
-        description.text = inventoryManager.GetDescription();
+        //description.text = inventoryManager.GetDescription();
     }
 }

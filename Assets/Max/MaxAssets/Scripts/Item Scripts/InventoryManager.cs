@@ -65,14 +65,14 @@ public class InventoryManager : MonoBehaviour
             ItemDescription.text = item.itemDescription;
             ItemID.text = item.id;
             index = Convert.ToInt32(ItemID);
-            descriptionArray[index] = ItemDescription.text;
+            //descriptionArray[index] = ItemDescription.text;
         }
     }
 
-    public string GetDescription(int i)
+    /*public string GetDescription(int i)
     {
         return descriptionArray[i];
-    }
+    }*/
 
 
     void Update()
