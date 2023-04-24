@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
-using UnityEngine.UI;
 
 public class MaxPlayerController : MonoBehaviour
 {
@@ -62,7 +61,6 @@ public class MaxPlayerController : MonoBehaviour
     public bool nightVisToggle;
     private float batteryPercent;
     public float totalBatteryLife = 100.0f;
-    public ItemPickUp itemPickupScript;
     // ////////////////////////////////////////////
 
     public void OnMove(InputAction.CallbackContext context)
@@ -141,7 +139,6 @@ public class MaxPlayerController : MonoBehaviour
         gun.gameObject.SetActive(false);
         isHoldingFlashlight = true;
         batteryPercent = totalBatteryLife;
-
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -151,7 +148,7 @@ public class MaxPlayerController : MonoBehaviour
         grounded = isGrounded();
         if (nightVisToggle == true)
         {
-            batteryPercent = batteryPercent - 1.05f;
+            batteryPercent = batteryPercent - 0.05f;
             //Debug.Log(batteryPercent);
         }
         NightVisionBattery();
@@ -277,7 +274,6 @@ public class MaxPlayerController : MonoBehaviour
     private void Pickup()
     {
         anim.SetTrigger("Pickup");
-        itemPickupScript.Pickup();
     }
 
     private void NightVision()
@@ -298,16 +294,4 @@ public class MaxPlayerController : MonoBehaviour
     {
         batBar.SetBatteryPercentage(batteryPercent);
     }
-
-    // Yellow Gizmo capsule to see the player bettewr
-
-    #if UNITY_EDITOR
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        CapsuleCollider cc = GetComponent<CapsuleCollider>();
-        Gizmos.DrawWireMesh(gizmoMesh, -1, transform.position, Quaternion.identity,
-            new Vector3(cc.radius*2, cc.height/2, cc.radius*2));
-    }
-    #endif
 }
