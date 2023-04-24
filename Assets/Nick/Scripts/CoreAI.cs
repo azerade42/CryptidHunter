@@ -164,6 +164,8 @@ public class CoreAI : MonoBehaviour
     }
     private void Update()
     {
+        anim.speed = _navMeshAgent.speed/5;
+        
         switch (_AIState)
         {
             case AIState.Passive:
@@ -193,7 +195,7 @@ public class CoreAI : MonoBehaviour
                 TargetCheck(_proximityRadius, _proximityAngle);
 
                 // ChangeRendererColors(_enemyWanderingColor);
-                anim.SetBool("isChasingPlayer", _isChasingPlayer);
+                //anim.SetBool("isChasingPlayer", _isChasingPlayer);
 
                 break;
 
@@ -212,7 +214,7 @@ public class CoreAI : MonoBehaviour
                     ChasePlayer();
 
                     _navMeshAgent.speed = _attackSpeed;
-                    anim.SetBool("isChasingPlayer", _isChasingPlayer);
+                    // anim.SetBool("isChasingPlayer", _isChasingPlayer);
 
                 }
                 if (_canSeePlayer == false)
@@ -243,6 +245,7 @@ public class CoreAI : MonoBehaviour
             case AIState.Stop:
 
                 _navMeshAgent.speed = 0;
+                
                 _navMeshAgent.acceleration = 0;
                 _navMeshAgent.destination = transform.position;
 

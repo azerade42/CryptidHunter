@@ -34,10 +34,6 @@ public class Enemy : MonoBehaviour
 
     private MeshRenderer [] meshRenderers;
 
-    private void OnEnable()
-    {
-        EventManager.Instance.rifleHit += HitWeakpoint;
-    }
 
     private void OnDisable()
     {
@@ -46,6 +42,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+        EventManager.Instance.rifleHit += HitWeakpoint;
         health = numWeakpoints;
         // meshPivotPointCorrection = meshHolder.transform.localPosition;
         AddWeakpoints();      

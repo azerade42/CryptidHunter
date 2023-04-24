@@ -65,7 +65,6 @@ public class EnvironmentAudio : MonoBehaviour
 
     private static IEnumerator LerpAudio(float lerpTime, AudioClip newClip, float endVolume)
     {
-        Debug.Log("goodbye cryptid sounds");
         float startVolume = audioSource.volume;
         float curTime = 0;
 
@@ -85,7 +84,6 @@ public class EnvironmentAudio : MonoBehaviour
 
         while (curTime < lerpTime)
         {
-            Debug.Log("hello crickets");
             audioSource.volume = Mathf.Lerp(0f, endVolume, curTime/lerpTime);
             curTime += Time.deltaTime;
 
