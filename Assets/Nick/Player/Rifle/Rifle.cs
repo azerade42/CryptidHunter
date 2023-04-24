@@ -25,8 +25,8 @@ public class Rifle : MonoBehaviour
     void FireRifle()
     {
         playerController.StartShotTime = Time.time;
-        muzzleFlash.Play();
         gunshotNoise.Play();
+        playerController.anim.SetTrigger("RifleShot");
 
         Camera currentCam;
         float resolutionX, resolutionY;
@@ -41,6 +41,8 @@ public class Rifle : MonoBehaviour
             currentCam = Camera.main;
             resolutionX = 384f;
             resolutionY = 216f;
+
+            muzzleFlash.Play();
         }
 
         // Changes based on PS1 render texture & scope render texture
@@ -49,7 +51,7 @@ public class Rifle : MonoBehaviour
         Ray ray = currentCam.ScreenPointToRay(screenCenterPoint);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, aimColliderMask))
         {
-            playerController.anim.SetTrigger("RifleShot");
+           
 
             GameObject whatIsHit = raycastHit.transform.gameObject;
 

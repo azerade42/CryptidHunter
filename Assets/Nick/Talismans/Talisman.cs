@@ -9,6 +9,8 @@ public class Talisman : MonoBehaviour
     [HideInInspector]
     public List<Transform> spawnPoints;
 
+    public string tag;
+
     private bool triggered;
 
     private void Awake()

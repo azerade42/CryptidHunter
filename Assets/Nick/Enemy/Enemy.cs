@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,29 +29,45 @@ public class Enemy : MonoBehaviour
 
     private GameObject [] weakpoints;
 
-    [Header("Afterimage trail")]
-    [SerializeField] private float trailRate;
-    [SerializeField] private float trailTime;
+    // [Header("Afterimage trail")]
+    // [SerializeField] private float trailRate;
+    // [SerializeField] private float trailTime;
 
     private MeshRenderer [] meshRenderers;
+
+    private int lives = 3;
 
 
     private void OnDisable()
     {
+        EventManager.Instance.talismanUsed -= AddWeakpoints;
         EventManager.Instance.rifleHit -= HitWeakpoint;
+
+        foreach (GameObject weakpoint in weakpoints)
+            Destroy(weakpoint);
+
+        Array.Clear(weakpoints, 0, numWeakpoints);
     }
 
     private void Start()
     {
+        EventManager.Instance.talismanUsed += AddWeakpoints;
         EventManager.Instance.rifleHit += HitWeakpoint;
         health = numWeakpoints;
         // meshPivotPointCorrection = meshHolder.transform.localPosition;
-        AddWeakpoints();      
+        //AddWeakpoints();      
     }
 
     // Add the weakpoints to the verticies of the cryptid
-    private GameObject [] AddWeakpoints()
+    private void AddWeakpoints()
     {
+        print("SPAWNING WEAKPOINTS");
+        float tempSpatialBlend = audioSource.spatialBlend; 
+        audioSource.pitch = 1.2f;
+        audioSource.spatialBlend = 0;
+        audioSource.Play();
+        audioSource.spatialBlend = tempSpatialBlend;
+        
         weakpoints = new GameObject[numWeakpoints];
 
         for (int i = 0; i < numWeakpoints; i++)
@@ -58,12 +75,12 @@ public class Enemy : MonoBehaviour
             int len = bodyMesh.sharedMesh.vertices.Length;
             int attempts = 0;
             
-            Vector3 randomVertexPos = bodyMesh.sharedMesh.vertices[Random.Range(0, len)];
+            Vector3 randomVertexPos = bodyMesh.sharedMesh.vertices[UnityEngine.Random.Range(0, len)];
             
             // Keep generating a random vertex for the weakpoint until it's on the visible side
             while (!(randomVertexPos.x > -0.035f && randomVertexPos.x < 0.045f) || randomVertexPos.y < -0.01f || !(randomVertexPos.z > 0.005f))
             {
-                randomVertexPos = bodyMesh.sharedMesh.vertices[Random.Range(0, len)];
+                randomVertexPos = bodyMesh.sharedMesh.vertices[UnityEngine.Random.Range(0, len)];
 
                 // Infinite loop protection
                 if (attempts++ > len) break;
@@ -78,12 +95,12 @@ public class Enemy : MonoBehaviour
             weakpoints[i] = wp;
         }
 
-        return weakpoints;
+        //return weakpoints;
     }
 
     private void HitWeakpoint()
     {
-        audioSource.pitch = Random.Range(1, 1.25f);
+        audioSource.pitch = UnityEngine.Random.Range(1, 1.25f);
         audioSource.Play();
         if (--health <= 0)
         {
@@ -162,7 +179,18 @@ public class Enemy : MonoBehaviour
         // foreach (Transform child in transform)
         //     child.gameObject.SetActive(false);
 
+
+        // reset back
+        cryptidObject.GetComponent<SphereCollider>().enabled = true;
+        cryptidObject.GetComponent<AudioSource>().enabled = true;
+        shader.material.SetFloat("_DissolveHeight", 2);
+        bellyLight.enabled = true;
+
+
         cryptidObject.SetActive(false);
+
+        if (--lives <= 0 && EventManager.Instance.fadeToBlack != null)
+            EventManager.Instance.fadeToBlack.Invoke();
 
         yield return null;
     }

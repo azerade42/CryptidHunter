@@ -36,10 +36,16 @@ public class NickPlayerController : MonoBehaviour
     public Animator anim;
 
     [SerializeField] private GameObject flashlight;
-
-    // [Space(5)]
-    // [Header("Rifle")]
     [SerializeField] private GameObject gun;
+
+    [SerializeField] private GameObject moonshine;
+    [SerializeField] private GameObject magazine;
+    [SerializeField] private GameObject nokiaStick;
+    [SerializeField] private GameObject pillBottle;
+    [SerializeField] private GameObject energyDrink;
+
+    private GameObject equippedObj;
+    private bool talismanUsed;
 
     [SerializeField] private AudioSource footSteps;
 
@@ -178,6 +184,14 @@ public class NickPlayerController : MonoBehaviour
 
     void Update()
     {
+        anim.SetBool("isHoldingItem", true);
+        isHoldingFlashlight = false;
+        flashlight.gameObject.SetActive(false);
+        if (equippedObj)
+            equippedObj.gameObject.SetActive(true);
+        
+
+
         // MAX /////////////////////////
         if (nightVisToggle == true)
         {
@@ -220,6 +234,7 @@ public class NickPlayerController : MonoBehaviour
         float hozSpeed = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
 
         anim.SetFloat("Speed", hozSpeed);
+        anim.SetBool("isHoldingGun", isHoldingGun);
 
         if (!footstepsEnabled && grounded && hozSpeed > 0.5f)
             footSteps.enabled = true;
@@ -309,6 +324,12 @@ public class NickPlayerController : MonoBehaviour
 
     private void Pickup()
     {
+        if (!talismanUsed)
+        {
+            UseTalisman();
+            talismanUsed = true;
+        }
+
         anim.SetTrigger("Pickup");
     }
 
@@ -353,6 +374,34 @@ public class NickPlayerController : MonoBehaviour
         {
             Die();
         }
+    }
+
+    private void UseTalisman()
+    {
+        equippedObj = magazine;
+        StartCoroutine(Dissolve(2f));
+    }
+
+    IEnumerator Dissolve(float dissolveTime)
+    {
+
+        float curTime = 0;
+        while (curTime < dissolveTime)
+        {
+            float lerp = Mathf.Lerp(2, -10, curTime/dissolveTime);
+            // equippedObj.GetComponent<MeshRenderer>().material.SetFloat("_DissolveHeight", lerp);
+            curTime += Time.deltaTime;
+            yield return null;
+        }
+
+        equippedObj.SetActive(false);
+        equippedObj = nokiaStick;
+        
+        
+        if (EventManager.Instance.talismanUsed != null)
+            EventManager.Instance.talismanUsed.Invoke();
+
+        yield return null;
     }
 
     private void Die()

@@ -14,7 +14,7 @@ public class FPSAnimationEvents : MonoBehaviour
     }
     public void ADSFinished()
     {
-        if (!playerController.isAiming)
-            scopeCamera.gameObject.SetActive(false);
+        // if (!playerController.isAiming)
+        //     scopeCamera.gameObject.SetActive(false);
     }
 }

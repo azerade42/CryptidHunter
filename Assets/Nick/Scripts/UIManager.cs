@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Animator healthbar;
     [SerializeField] private Sprite [] healthbarBGs;
     [SerializeField] private Image healthBarBG;
+    [SerializeField] private Image fadeOutImage;
     private bool crosshairActive;
 
     private void OnEnable()
@@ -17,6 +18,8 @@ public class UIManager : MonoBehaviour
         EventManager.Instance.equipRightAction += SwitchCrosshair;
         EventManager.Instance.aimAction += SwitchCrosshair;
         EventManager.Instance.damageAction += Damaged;
+        EventManager.Instance.fadeToBlack += FadeToBlack;
+
     }
 
     private void OnDisable()
@@ -24,6 +27,7 @@ public class UIManager : MonoBehaviour
         EventManager.Instance.equipRightAction -= SwitchCrosshair;
         EventManager.Instance.aimAction -= SwitchCrosshair;
         EventManager.Instance.damageAction -= Damaged;
+        EventManager.Instance.fadeToBlack -= FadeToBlack;
     }
 
     private void Awake()
@@ -48,6 +52,32 @@ public class UIManager : MonoBehaviour
             healthBarBG.sprite = healthbarBGs[1];
         else
             healthBarBG.sprite = healthbarBGs[2];
+    }
+
+    private void FadeToBlack()
+    {
+        // Time.timeScale = 0;
+
+        StartCoroutine(FadeOut(5.0f));
+
+        Application.Quit();
+    }
+
+    IEnumerator FadeOut(float fadeTime)
+    {
+        float curTime = 0;
+        while (curTime < fadeTime)
+        {
+            float lerp = Mathf.Lerp(0, 1, curTime/fadeTime);
+            Color imgColor = fadeOutImage.color;
+            imgColor.a = lerp;
+            fadeOutImage.color = imgColor;
+            // equippedObj.GetComponent<MeshRenderer>().material.SetFloat("_DissolveHeight", lerp);
+            curTime += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return null;
     }
 
     

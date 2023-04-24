@@ -18,7 +18,7 @@ public class CoreAI : MonoBehaviour
         // will cause the AI to go back to the "Passive" state.
         Hostile,
 
-        // In this state, the AI will run around frantically in circles around the player
+        // In this state, the AI will frantically run around in circles around the player
         Panic,
 
         // The AI stops in place and stands up
@@ -136,14 +136,19 @@ public class CoreAI : MonoBehaviour
 
     public void OnEnable()
     {
+        Debug.Log("reset state");
+        _AIState = AIState.Passive;
+
         EventManager.Instance.rifleHit += AIHit;
         EventManager.Instance.enemyDie += StopMoving;
+        EventManager.Instance.talismanUsed += Panic;
     }
 
     public void OnDisable()
     {
         EventManager.Instance.rifleHit -= AIHit;
         EventManager.Instance.enemyDie -= StopMoving;
+        EventManager.Instance.talismanUsed -= Panic;
     }
 
     public void Spawn(Talisman talisman)
@@ -210,7 +215,6 @@ public class CoreAI : MonoBehaviour
                 }
                 else
                 {
-                    _AIState = AIState.Panic;
                     ChasePlayer();
 
                     _navMeshAgent.speed = _attackSpeed;
@@ -428,6 +432,11 @@ public class CoreAI : MonoBehaviour
     private void AIHit()
     {
         print("AI Hit (I haven't coded anything here)");
+    }
+
+    private void Panic()
+    {
+        _AIState = AIState.Panic;
     }
 
     private void StopMoving()

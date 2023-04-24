@@ -14,9 +14,11 @@ public class EventManager : MonoBehaviour
     public UnityAction rifleHit;
     public UnityAction<Talisman> talismanObtained;
     public UnityAction enemyDie;
+    public UnityAction talismanUsed;
 
     public UnityAction nearPlayer;
     public UnityAction leavePlayer;
+    public UnityAction fadeToBlack;
 
     private void Awake()
     {
