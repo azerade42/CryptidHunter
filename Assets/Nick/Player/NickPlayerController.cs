@@ -184,14 +184,6 @@ public class NickPlayerController : MonoBehaviour
 
     void Update()
     {
-        anim.SetBool("isHoldingItem", true);
-        isHoldingFlashlight = false;
-        flashlight.gameObject.SetActive(false);
-        if (equippedObj)
-            equippedObj.gameObject.SetActive(true);
-        
-
-
         // MAX /////////////////////////
         if (nightVisToggle == true)
         {
@@ -330,7 +322,7 @@ public class NickPlayerController : MonoBehaviour
             talismanUsed = true;
         }
 
-        anim.SetTrigger("Pickup");
+       // anim.SetTrigger("Pickup");
     }
 
     private void NightVision()
@@ -376,10 +368,58 @@ public class NickPlayerController : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        EventManager.Instance.talismanObtained += EquipTalisman;
+    }
+    void OnDisable()
+    {
+        EventManager.Instance.talismanObtained -= EquipTalisman;
+    }
+
+    // super scuffed way of knowing which model should be in the player's hand
+    private void EquipTalisman(Talisman talisman)
+    {
+        switch (talisman.talismanID)
+        {
+            case 0:
+            {
+                equippedObj = moonshine;
+                break;
+            }
+            case 1:
+            {
+                equippedObj = magazine;
+                break;
+            }
+            case 2:
+            {
+                equippedObj = nokiaStick;
+                break;
+            }
+            default:
+            {
+                Debug.LogWarning("Talisman ID invalid");
+                break;
+            } 
+        }
+        equippedObj.SetActive(true);
+        flashlight.gameObject.SetActive(false);
+        isHoldingGun = false;
+        anim.SetBool("isHoldingGun", isHoldingGun);
+        anim.SetBool("isHoldingItem", true);
+    }
+
     private void UseTalisman()
     {
-        equippedObj = magazine;
         StartCoroutine(Dissolve(2f));
+
+        // equippedObj.SetActive(false);
+        // equippedObj = nokiaStick;
+        
+        
+        // if (EventManager.Instance.talismanUsed != null)
+        //     EventManager.Instance.talismanUsed.Invoke();
     }
 
     IEnumerator Dissolve(float dissolveTime)
@@ -395,18 +435,25 @@ public class NickPlayerController : MonoBehaviour
         }
 
         equippedObj.SetActive(false);
-        equippedObj = nokiaStick;
+        anim.SetBool("isHoldingItem", false);
         
         
         if (EventManager.Instance.talismanUsed != null)
+        {
+            print("talisman used!");
             EventManager.Instance.talismanUsed.Invoke();
+        }
+        
+            
+            
+            talismanUsed = false;
 
         yield return null;
     }
 
     private void Die()
     {
-        Debug.Log("dead");
+        NickSceneManager.Restart();
     }
 
     // Yellow Gizmo capsule to see the player bettewr

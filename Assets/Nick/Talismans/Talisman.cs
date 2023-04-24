@@ -9,7 +9,7 @@ public class Talisman : MonoBehaviour
     [HideInInspector]
     public List<Transform> spawnPoints;
 
-    public string tag;
+    public int talismanID;
 
     private bool triggered;
 
@@ -21,7 +21,7 @@ public class Talisman : MonoBehaviour
             if (trans.localPosition == Vector3.zero) continue;
 
             spawnPoints.Add(trans);
-            Debug.Log(trans.localPosition);
+            // Debug.Log(trans.localPosition);
         }
     }
 
@@ -35,6 +35,7 @@ public class Talisman : MonoBehaviour
         if (pc != null && EventManager.Instance.talismanObtained != null)
         {
             EventManager.Instance.talismanObtained.Invoke(this);
+            gameObject.SetActive(false);
         }
     }
     private void OnTriggerStay(Collider col)

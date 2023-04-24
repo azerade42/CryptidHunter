@@ -12,6 +12,8 @@ public class FPSAnimationEvents : MonoBehaviour
     {
         anim = GetComponent<Animator>();
     }
+
+    // this was a bad idea
     public void ADSFinished()
     {
         // if (!playerController.isAiming)

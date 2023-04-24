@@ -7,7 +7,7 @@ public class CoreAI : MonoBehaviour
 {
     // Handles each state of behavior the AI is in, they're like constants
     // Apply specific instructions based on the state and run them every frame
-    private enum AIState
+    public enum AIState
     {
         // Default state
         // Roams to randomly generated points OR
@@ -33,7 +33,7 @@ public class CoreAI : MonoBehaviour
     private NavMeshAgent _navMeshAgent;
 
     [Tooltip("The current state of the AI")] [SerializeField]
-    private AIState _AIState;
+    public AIState _AIState;
     [Tooltip("Which Unity layer will make the AI go into the Hostile state")]
     public LayerMask targetMask;
     [Tooltip("Which unity layer will block the AI's ability to \"see\"")]
@@ -136,9 +136,6 @@ public class CoreAI : MonoBehaviour
 
     public void OnEnable()
     {
-        Debug.Log("reset state");
-        _AIState = AIState.Passive;
-
         EventManager.Instance.rifleHit += AIHit;
         EventManager.Instance.enemyDie += StopMoving;
         EventManager.Instance.talismanUsed += Panic;
@@ -205,6 +202,8 @@ public class CoreAI : MonoBehaviour
                 break;
 
             case AIState.Hostile:
+
+                _navMeshAgent.acceleration = 8;
 
                 if (_fleeFromPlayer == true)
                 {
@@ -431,7 +430,7 @@ public class CoreAI : MonoBehaviour
 
     private void AIHit()
     {
-        print("AI Hit (I haven't coded anything here)");
+        
     }
 
     private void Panic()

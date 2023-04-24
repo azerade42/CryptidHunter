@@ -63,7 +63,7 @@ public class EnvironmentAudio : MonoBehaviour
         StartCoroutine(LerpAudio(5f, crickets, 0.008f));
     }
 
-    private static IEnumerator LerpAudio(float lerpTime, AudioClip newClip, float endVolume)
+    public static IEnumerator LerpAudio(float lerpTime, AudioClip newClip, float endVolume)
     {
         float startVolume = audioSource.volume;
         float curTime = 0;

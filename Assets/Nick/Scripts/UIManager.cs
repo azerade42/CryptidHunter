@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
 
         StartCoroutine(FadeOut(5.0f));
 
-        Application.Quit();
+        
     }
 
     IEnumerator FadeOut(float fadeTime)
@@ -76,6 +76,9 @@ public class UIManager : MonoBehaviour
             curTime += Time.deltaTime;
             yield return null;
         }
+
+        NickSceneManager.Restart();
+        Application.Quit();
 
         yield return null;
     }

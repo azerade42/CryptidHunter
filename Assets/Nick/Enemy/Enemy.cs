@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private GameObject weakpointObject;
     [SerializeField] private int numWeakpoints;
+    private int startWeakpointsCount;
 
     private GameObject [] weakpoints;
 
@@ -38,6 +39,11 @@ public class Enemy : MonoBehaviour
     private int lives = 3;
 
 
+    private void Awake()
+    {
+        startWeakpointsCount = numWeakpoints;
+    }
+
     private void OnDisable()
     {
         EventManager.Instance.talismanUsed -= AddWeakpoints;
@@ -49,11 +55,11 @@ public class Enemy : MonoBehaviour
         Array.Clear(weakpoints, 0, numWeakpoints);
     }
 
-    private void Start()
+    private void OnEnable()
     {
         EventManager.Instance.talismanUsed += AddWeakpoints;
         EventManager.Instance.rifleHit += HitWeakpoint;
-        health = numWeakpoints;
+        
         // meshPivotPointCorrection = meshHolder.transform.localPosition;
         //AddWeakpoints();      
     }
@@ -62,12 +68,19 @@ public class Enemy : MonoBehaviour
     private void AddWeakpoints()
     {
         print("SPAWNING WEAKPOINTS");
+
+        // Audio shii
         float tempSpatialBlend = audioSource.spatialBlend; 
         audioSource.pitch = 1.2f;
         audioSource.spatialBlend = 0;
         audioSource.Play();
         audioSource.spatialBlend = tempSpatialBlend;
-        
+
+        float difficultyScale = numWeakpoints / lives;
+        numWeakpoints = Mathf.RoundToInt(difficultyScale);
+        print(numWeakpoints);
+        health = numWeakpoints;
+
         weakpoints = new GameObject[numWeakpoints];
 
         for (int i = 0; i < numWeakpoints; i++)
@@ -147,6 +160,7 @@ public class Enemy : MonoBehaviour
         audioSource.Play();
 
         bellyLight.enabled = false;
+        numWeakpoints = startWeakpointsCount;
 
         if (EventManager.Instance.leavePlayer != null)
             EventManager.Instance.leavePlayer.Invoke();
@@ -185,6 +199,7 @@ public class Enemy : MonoBehaviour
         cryptidObject.GetComponent<AudioSource>().enabled = true;
         shader.material.SetFloat("_DissolveHeight", 2);
         bellyLight.enabled = true;
+        cryptidObject.GetComponent<CoreAI>()._AIState = CoreAI.AIState.Passive;
 
 
         cryptidObject.SetActive(false);
