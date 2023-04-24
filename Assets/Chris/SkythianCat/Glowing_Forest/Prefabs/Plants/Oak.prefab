@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000010796181904}
   - component: {fileID: 136000010465149026}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,9 +57,7 @@ GameObject:
   - component: {fileID: 4000010515629678}
   - component: {fileID: 33000012255451780}
   - component: {fileID: 23000014146456298}
-  - component: {fileID: 5076748835079203282}
-  - component: {fileID: 5756731516461703801}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Oak
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,9 +71,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000011745704624}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.000000021855694, y: -1.1102232e-16, z: 1.1102232e-16, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.317, y: 2.317, z: 2.317}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4000013803989304}
@@ -136,36 +134,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5076748835079203282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011745704624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: f2652fae
---- !u!136 &5756731516461703801
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011745704624}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1.6111219
-  m_Height: 12.366919
-  m_Direction: 1
-  m_Center: {x: 0, y: 5.323073, z: 0}
 --- !u!1 &1000012120913986
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013803989304}
   - component: {fileID: 136000013513200024}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012564855978}
   - component: {fileID: 136000010476520162}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011259778204}
   - component: {fileID: 136000013718424394}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
