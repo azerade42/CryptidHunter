@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
+  m_Name: GasPrices_b
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: cbc83ec6603e4b54daea2dca2a00a322, type: 3}
+  subtitles:
+  - You ever notice how gas prices spike right before a big holiday?
+  - Its all a scheme to make more money off of us!
+  - If I had my way, I'd convert my whole RV to run off vegetable oil!
+  - Ya can't trust these big oil companies anyway!
+  delayBetweenLines: 3

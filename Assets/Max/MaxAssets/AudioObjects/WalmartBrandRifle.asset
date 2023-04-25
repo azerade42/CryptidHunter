@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: WalmartBrandRifle
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: f1521c569e1eaa6478175e43484fa38a, type: 3}
+  clip: {fileID: 8300000, guid: ad585ba1a8f9fc44d96d3d06bd8425a1, type: 3}
   subtitles:
   - This damn Walmart brand rifle!
   delayBetweenLines: 0

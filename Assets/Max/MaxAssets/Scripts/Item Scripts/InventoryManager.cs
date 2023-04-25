@@ -17,15 +17,27 @@ public class InventoryManager : MonoBehaviour
     public GameObject HotbarItem;
     public GameObject InventoryScreen;
     public GameObject Hotbar;
+
+    public Item equippedItem;
+
+
     public string[] descriptionArray;
     bool toggle = false;
     private int index = 0;
 
     [SerializeField] private ItemDescription itemDescription;
 
-    private void Awake()
+    private void Start()
     {
         Instance = this;
+        EventManager.Instance.toggleInventory += ToggleInventory;
+
+        ListItems();
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.toggleInventory -= ToggleInventory;
     }
 
     public void AddHotbar(Item item)
@@ -36,6 +48,12 @@ public class InventoryManager : MonoBehaviour
     {             
         InventoryItems.Add(item);   
     }
+
+    public void RemoveHotbar(Item item)
+    {
+        HotbarItems.Remove(item);
+    }
+
     public void ListItems()
     {
         index = 0;
@@ -63,7 +81,7 @@ public class InventoryManager : MonoBehaviour
             ItemName2.text = item.itemName;
             ItemIcon2.sprite = item.icon;
             ItemDescription.text = item.itemDescription;
-            ItemID.text = item.id;
+            ItemID.text = item.id.ToString();
             index = Convert.ToInt32(ItemID);
             //descriptionArray[index] = ItemDescription.text;
         }
@@ -75,16 +93,16 @@ public class InventoryManager : MonoBehaviour
     }*/
 
 
-    void Update()
+    private void ToggleInventory()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            toggle = !toggle;
-            InventoryScreen.SetActive(toggle);
-            Hotbar.SetActive(!toggle);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = toggle;
-            itemDescription.ResetDescription();
-        }
+        toggle = !toggle;
+        InventoryScreen.SetActive(toggle);
+        Hotbar.SetActive(!toggle);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = toggle;
+        // itemDescription.ResetDescription();
     }
+
+
+
 }

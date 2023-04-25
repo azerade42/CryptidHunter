@@ -111,6 +111,8 @@ public class CoreAI : MonoBehaviour
     private bool circlingClockwise;
     private bool prevDir;
 
+    [SerializeField] private AudioObject holdStill;
+
     [Tooltip("Holds the waypoints displayed in the scene. Only used if _randomWander is false")]
     private Transform[] _waypoints;
 
@@ -232,8 +234,9 @@ public class CoreAI : MonoBehaviour
                 _navMeshAgent.speed = _circleSpeed * _circleRadius - _navMeshAgent.speed * _navMeshAgent.stoppingDistance;
                 _navMeshAgent.acceleration = 2 * _navMeshAgent.speed;
 
-                if (timeSpentCircling > 5f)
+                if (timeSpentCircling > 20f)
                 {
+                    Vocals.instance.Say(holdStill);
                     timeSpentCircling = 0f;
                     prevDir = circlingClockwise;
                     circlingClockwise = !circlingClockwise;
@@ -393,9 +396,12 @@ public class CoreAI : MonoBehaviour
     // Move away from the player 
     public void FleeFromPlayer()
     {
-        Vector3 runTo = transform.position + ((transform.position - _player.transform.position) * 1);
+        Vector3 runTo = transform.position + ((transform.position - _player.transform.position));
         float distance = Vector3.Distance(transform.position, _player.transform.position);
-        if (distance < walkRadius) _navMeshAgent.SetDestination(runTo);
+        if (distance < walkRadius)
+        {
+             _navMeshAgent.SetDestination(runTo);
+        }
     }
 
     // Moves around the player in a circle pattern
@@ -435,6 +441,14 @@ public class CoreAI : MonoBehaviour
 
     private void Panic()
     {
+        StartCoroutine(RunBeforePanic());
+    }
+
+    IEnumerator RunBeforePanic()
+    {
+        _fleeFromPlayer = true;
+        yield return new WaitForSeconds(3.0f);
+        _fleeFromPlayer = false;
         _AIState = AIState.Panic;
     }
 

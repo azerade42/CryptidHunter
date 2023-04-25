@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
+using System.Linq;
 
 public class NickPlayerController : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class NickPlayerController : MonoBehaviour
     {
         get { return health; }
     }
+    bool die;
+
     [SerializeField] private float invulnerabilityTime;
     private float startHitTime, timeSinceHit;
 
@@ -46,6 +49,10 @@ public class NickPlayerController : MonoBehaviour
 
     private GameObject equippedObj;
     private bool talismanUsed;
+    private bool talismanEquipped;
+
+    private bool standingOnItem;
+    private ItemPickUp currentItem;
 
     [SerializeField] private AudioSource footSteps;
 
@@ -102,12 +109,16 @@ public class NickPlayerController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext context)
     {
-        Pickup();
+        if (context.performed && !isPickingUp)
+            Pickup();
+        
+        if (context.canceled)
+            isPickingUp = false;
     }
 
     public void OnAimDownSight(InputAction.CallbackContext context)
     {
-        if (!isShooting && context.started)
+        if (!isShooting && context.started && isHoldingGun)
         {
             scopeCamera.gameObject.SetActive(true);
 
@@ -116,25 +127,34 @@ public class NickPlayerController : MonoBehaviour
             
             AimDownSight();
 
-            if (EventManager.Instance.aimAction != null)
-                EventManager.Instance.aimAction.Invoke();
+            if (EventManager.Instance.crosshairFalse != null)
+                EventManager.Instance.crosshairFalse.Invoke();
         }
-        else if (!isShooting && context.canceled)
+        else if (!isShooting && context.canceled && isHoldingGun)
         {
             anim.SetBool("isAimingGun", false);
             isAiming = false;
 
-            if (EventManager.Instance.aimAction != null)
-                EventManager.Instance.aimAction.Invoke();
+            if (EventManager.Instance.crosshairTrue != null)
+                EventManager.Instance.crosshairTrue.Invoke();
         }
     }
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (!isShooting && context.performed && !isPickingUp)
+        if (context.performed && !isShooting && !isPickingUp && isHoldingGun)
         {
             Fire();
             isShooting = true;
+        }
+
+        else if (context.performed && !isPickingUp && !isHoldingGun && equippedObj != null)
+        {
+            if (!talismanUsed)
+            {
+                talismanUsed = true;
+                UseTalisman();
+            }
         }
         else if (context.canceled)
         {
@@ -159,6 +179,11 @@ public class NickPlayerController : MonoBehaviour
         NightVision();
     }
 
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        ToggleInventory();
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -178,6 +203,8 @@ public class NickPlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (die) return;
+
         Move();
         grounded = isGrounded();
     }
@@ -280,7 +307,6 @@ public class NickPlayerController : MonoBehaviour
 
     private void Fire()
     {
-        if (!isHoldingGun) return;
 
         timeSinceShot = Time.time - startShotTime;
 
@@ -295,6 +321,9 @@ public class NickPlayerController : MonoBehaviour
     // Cycles between flashlight and rifle
     private void EquipRight()
     {
+        if (isAiming) return;
+        if (talismanEquipped) return;
+
         timeSinceShot = Time.time - startShotTime;
         if (timeSinceShot < 1f) return;
 
@@ -306,6 +335,11 @@ public class NickPlayerController : MonoBehaviour
         gun.SetActive(isHoldingGun);
         flashlight.SetActive(isHoldingFlashlight);
         anim.SetBool("isHoldingGun", isHoldingGun);
+
+        if (isHoldingGun && EventManager.Instance.crosshairTrue != null)
+            EventManager.Instance.crosshairTrue.Invoke();
+        if (isHoldingFlashlight && EventManager.Instance.crosshairFalse != null)
+            EventManager.Instance.crosshairFalse.Invoke();
     }
 
     // Cycles between talisman and consumables
@@ -316,11 +350,18 @@ public class NickPlayerController : MonoBehaviour
 
     private void Pickup()
     {
-        if (!talismanUsed)
+        if (standingOnItem && !isPickingUp && !talismanEquipped)
         {
-            UseTalisman();
-            talismanUsed = true;
+            isPickingUp = true;
+            talismanEquipped = true;
+            currentItem.Pickup();
         }
+
+        // if (!talismanUsed)
+        // {
+        //     UseTalisman();
+        //     talismanUsed = true;
+        // }
 
        // anim.SetTrigger("Pickup");
     }
@@ -342,6 +383,12 @@ public class NickPlayerController : MonoBehaviour
     public void NightVisionBattery()
     {
         batBar.SetBatteryPercentage(batteryPercent);
+    }
+
+    void ToggleInventory()
+    {
+        if (EventManager.Instance.toggleInventory != null)
+            EventManager.Instance.toggleInventory.Invoke();
     }
 
     public void Damage(float damageTaken)
@@ -368,13 +415,28 @@ public class NickPlayerController : MonoBehaviour
         }
     }
 
+    private void InItem(ItemPickUp item)
+    {
+        standingOnItem = true;
+        currentItem = item;
+    }
+
+    private void OutItem(ItemPickUp item)
+    {
+        standingOnItem = false;
+    }
+
     void OnEnable()
     {
         EventManager.Instance.talismanObtained += EquipTalisman;
+        EventManager.Instance.inItem += InItem;
+        EventManager.Instance.outItem += OutItem;
     }
     void OnDisable()
     {
         EventManager.Instance.talismanObtained -= EquipTalisman;
+        EventManager.Instance.inItem -= InItem;
+        EventManager.Instance.outItem -= OutItem;
     }
 
     // super scuffed way of knowing which model should be in the player's hand
@@ -406,8 +468,12 @@ public class NickPlayerController : MonoBehaviour
         equippedObj.SetActive(true);
         flashlight.gameObject.SetActive(false);
         isHoldingGun = false;
-        anim.SetBool("isHoldingGun", isHoldingGun);
+        isHoldingFlashlight = false;
+        anim.SetBool("isHoldingGun", false);
         anim.SetBool("isHoldingItem", true);
+
+        if (EventManager.Instance.crosshairFalse != null)
+            EventManager.Instance.crosshairFalse.Invoke();
     }
 
     private void UseTalisman()
@@ -444,16 +510,35 @@ public class NickPlayerController : MonoBehaviour
             EventManager.Instance.talismanUsed.Invoke();
         }
         
-            
-            
-            talismanUsed = false;
+        talismanUsed = false;
+        isHoldingFlashlight = true;
+        flashlight.gameObject.SetActive(true);
+        talismanEquipped = false;
+
+        // im so sorry this is cringe, could be O(1) if the link between gameobjects and inventory items were set up properly
+        for  (int i = 0; i < InventoryManager.Instance.HotbarItems.Count; i++)
+        {
+            Item item = InventoryManager.Instance.HotbarItems.ElementAt(i);
+            if (item.playerObj == equippedObj)
+            {
+                InventoryManager.Instance.RemoveHotbar(item);
+                InventoryManager.Instance.ListItems();
+            }
+        }
 
         yield return null;
     }
 
     private void Die()
     {
-        NickSceneManager.Restart();
+        if (die) return;
+        die = true;
+
+        speed = 0;
+        rb.velocity = Vector3.zero;
+
+        if (EventManager.Instance.fadeToBlack != null)
+            EventManager.Instance.fadeToBlack.Invoke(false);
     }
 
     // Yellow Gizmo capsule to see the player bettewr

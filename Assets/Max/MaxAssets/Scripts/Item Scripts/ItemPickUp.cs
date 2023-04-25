@@ -6,39 +6,43 @@ using UnityEngine;
 public class ItemPickUp : MonoBehaviour
 {
     public Item item;
-    private bool inItem;
+
+    public GameObject playerObj;
 
     public void Pickup()
     {
+        item.playerObj = this.playerObj;
         InventoryManager.Instance.AddHotbar(item);
         InventoryManager.Instance.AddInventory(item);
-        Destroy(gameObject);
         InventoryManager.Instance.ListItems();
+        InventoryManager.Instance.equippedItem = item;
+
+        if (item.id < 3 && EventManager.Instance.talismanObtained != null)
+        {
+            EventManager.Instance.talismanObtained.Invoke(gameObject.GetComponent<Talisman>());
+            
+        }
+
+         if (EventManager.Instance.outItem != null)
+                EventManager.Instance.outItem.Invoke(this);
+
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            inItem = true;
+            if (EventManager.Instance.inItem != null)
+                EventManager.Instance.inItem.Invoke(this);
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            inItem = false;
-        }
-    }
-
-    private void Update()
-    {
-        if (inItem == true) 
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Pickup();
-            }
+            if (EventManager.Instance.outItem != null)
+                EventManager.Instance.outItem.Invoke(this);
         }
     }
 }

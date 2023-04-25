@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: ThoughtsOnPhones
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 2fecb259139e4fc4ca132cf7fde02872, type: 3}
+  clip: {fileID: 8300000, guid: eefcd27d14c734d43ab6e6b2feec18a2, type: 3}
   subtitles:
   - Those damn cellphones are like tracking devices in your pocket man!
   - You ever notice how your phone always knows your location?

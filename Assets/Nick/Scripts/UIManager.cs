@@ -11,12 +11,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite [] healthbarBGs;
     [SerializeField] private Image healthBarBG;
     [SerializeField] private Image fadeOutImage;
+
+    [SerializeField] private AudioObject samWinDialogue;
+    [SerializeField] private AudioObject samLoseDialogue;
     private bool crosshairActive;
 
     private void OnEnable()
     {
-        EventManager.Instance.equipRightAction += SwitchCrosshair;
-        EventManager.Instance.aimAction += SwitchCrosshair;
+        // EventManager.Instance.equipRightAction += SwitchCrosshair;
+        // EventManager.Instance.aimAction += SwitchCrosshair;
+        EventManager.Instance.crosshairFalse += CrossHairFalse;
+        EventManager.Instance.crosshairTrue += CrossHairTrue;
         EventManager.Instance.damageAction += Damaged;
         EventManager.Instance.fadeToBlack += FadeToBlack;
 
@@ -24,8 +29,10 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        EventManager.Instance.equipRightAction -= SwitchCrosshair;
-        EventManager.Instance.aimAction -= SwitchCrosshair;
+        // EventManager.Instance.equipRightAction -= SwitchCrosshair;
+        // EventManager.Instance.aimAction -= SwitchCrosshair;
+        EventManager.Instance.crosshairTrue -= CrossHairTrue;
+        EventManager.Instance.crosshairFalse -= CrossHairFalse;
         EventManager.Instance.damageAction -= Damaged;
         EventManager.Instance.fadeToBlack -= FadeToBlack;
     }
@@ -38,6 +45,19 @@ public class UIManager : MonoBehaviour
     private void SwitchCrosshair()
     {
         crosshairActive = !crosshairActive;
+        crosshair.gameObject.SetActive(crosshairActive);
+    }
+
+    // could be replaced by a single variable, just ignore all this I was in too deep
+    private void CrossHairTrue()
+    {
+        crosshairActive = true;
+        crosshair.gameObject.SetActive(crosshairActive);
+    }
+
+    private void CrossHairFalse()
+    {
+        crosshairActive = false;
         crosshair.gameObject.SetActive(crosshairActive);
     }
 
@@ -54,12 +74,22 @@ public class UIManager : MonoBehaviour
             healthBarBG.sprite = healthbarBGs[2];
     }
 
-    private void FadeToBlack()
+    private void FadeToBlack(bool win)
     {
         // Time.timeScale = 0;
 
-        StartCoroutine(FadeOut(5.0f));
+        
 
+        if (win)
+        {
+            StartCoroutine(FadeOut(10.0f));
+            Vocals.instance.Say(samWinDialogue);
+        }
+        else
+        {
+            StartCoroutine(FadeOut(5.0f));
+            Vocals.instance.Say(samLoseDialogue);
+        }
         
     }
 

@@ -30,7 +30,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 35634c15b6cd37345a0c06944bdabf98,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.279
+      value: 28.922
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 35634c15b6cd37345a0c06944bdabf98,
         type: 3}
@@ -40,7 +40,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 35634c15b6cd37345a0c06944bdabf98,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -134.97
+      value: -141.75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 35634c15b6cd37345a0c06944bdabf98,
         type: 3}
@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 35634c15b6cd37345a0c06944bdabf98,
         type: 3}
       propertyPath: m_Name
-      value: hunting_rifle Variant
+      value: hunting_rifle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35634c15b6cd37345a0c06944bdabf98, type: 3}
@@ -90,20 +90,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4822233102246397014}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &1007586852928346712
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5633275965536467207}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1089831569054899656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,3 +116,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 0813b0c49dae9fe42b9db7231207377e, type: 2}
+--- !u!135 &1503566656
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5633275965536467207}
+  m_Material: {fileID: 13400000, guid: c00ad675a454b0e4bac081b01f68edfe, type: 2}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5.6022105
+  m_Center: {x: 0, y: 0, z: -0.63889337}

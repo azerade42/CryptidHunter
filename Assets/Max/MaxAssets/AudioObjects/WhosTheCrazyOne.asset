@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: WhosTheCrazyOne
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 65930a110bff0f748b18e3a605dcb854, type: 3}
+  clip: {fileID: 8300000, guid: eda140aab9a54834a99cdb354180c622, type: 3}
   subtitles:
   - It was always "No Sam, there aren't monsters that can take on the appearance
     of any creature on the planet!"

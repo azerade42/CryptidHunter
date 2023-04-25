@@ -18,7 +18,17 @@ public class EventManager : MonoBehaviour
 
     public UnityAction nearPlayer;
     public UnityAction leavePlayer;
-    public UnityAction fadeToBlack;
+    public UnityAction<bool> fadeToBlack;
+
+    public UnityAction<ItemPickUp> inItem;
+    public UnityAction<ItemPickUp> outItem;
+
+    public UnityAction toggleInventory;
+
+    public UnityAction startTalisman;
+
+    public UnityAction crosshairTrue;
+    public UnityAction crosshairFalse;
 
     private void Awake()
     {

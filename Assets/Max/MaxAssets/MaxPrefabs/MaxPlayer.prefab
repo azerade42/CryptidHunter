@@ -1364,7 +1364,6 @@ MonoBehaviour:
   nightVisComponent: {fileID: 0}
   nightVisToggle: 0
   totalBatteryLife: 100
-  dialogueScript: {fileID: 0}
 --- !u!114 &3997250671512426145
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -25,21 +25,23 @@ public class Talisman : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider col)
-    {
-        if (triggered) return;
-        triggered = true;
+    // private void OnTriggerEnter(Collider col)
+    // {
+    //     if (triggered) return;
+    //     triggered = true;
 
-        NickPlayerController pc = col.gameObject.GetComponent<NickPlayerController>();
+    //     NickPlayerController pc = col.gameObject.GetComponent<NickPlayerController>();
 
-        if (pc != null && EventManager.Instance.talismanObtained != null)
-        {
-            EventManager.Instance.talismanObtained.Invoke(this);
-            gameObject.SetActive(false);
-        }
-    }
-    private void OnTriggerStay(Collider col)
-    {
+    //     if (pc != null && EventManager.Instance.talismanObtained != null)
+    //     {
+    //         EventManager.Instance.talismanObtained.Invoke(this);
+    //         gameObject.SetActive(false);
+    //     }
+    // }
+    // private void OnTriggerStay(Collider col)
+    // {
 
-    }
+    // }
+
+    
 }

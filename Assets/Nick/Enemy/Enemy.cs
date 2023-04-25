@@ -28,7 +28,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int numWeakpoints;
     private int startWeakpointsCount;
 
-    private GameObject [] weakpoints;
+    [SerializeField] private AudioObject firstReactionToBear;
+    [SerializeField] private AudioObject secondReactionToBear;
+    [SerializeField] private AudioObject thirdReactionToBear;
+
+    private List<GameObject> weakpoints;
 
     // [Header("Afterimage trail")]
     // [SerializeField] private float trailRate;
@@ -49,10 +53,7 @@ public class Enemy : MonoBehaviour
         EventManager.Instance.talismanUsed -= AddWeakpoints;
         EventManager.Instance.rifleHit -= HitWeakpoint;
 
-        foreach (GameObject weakpoint in weakpoints)
-            Destroy(weakpoint);
-
-        Array.Clear(weakpoints, 0, numWeakpoints);
+        
     }
 
     private void OnEnable()
@@ -67,7 +68,15 @@ public class Enemy : MonoBehaviour
     // Add the weakpoints to the verticies of the cryptid
     private void AddWeakpoints()
     {
+        if (lives == 3)
+            Vocals.instance.Say(firstReactionToBear);
+        else if (lives == 2)
+            Vocals.instance.Say(secondReactionToBear);
+        else if (lives == 1)
+            Vocals.instance.Say(thirdReactionToBear);
+
         print("SPAWNING WEAKPOINTS");
+        print(numWeakpoints);
 
         // Audio shii
         float tempSpatialBlend = audioSource.spatialBlend; 
@@ -81,7 +90,7 @@ public class Enemy : MonoBehaviour
         print(numWeakpoints);
         health = numWeakpoints;
 
-        weakpoints = new GameObject[numWeakpoints];
+        weakpoints = new List<GameObject>(numWeakpoints);
 
         for (int i = 0; i < numWeakpoints; i++)
         {
@@ -105,7 +114,7 @@ public class Enemy : MonoBehaviour
             
             // Instantiate the weakpoint
             GameObject wp = Instantiate(weakpointObject, weakpointPosition, Quaternion.identity, cryptidObject.transform);
-            weakpoints[i] = wp;
+            weakpoints.Add(wp);
         }
 
         //return weakpoints;
@@ -152,8 +161,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        if (EventManager.Instance.enemyDie != null)
-            EventManager.Instance.enemyDie.Invoke();
+        
 
         audioSource.pitch = 0.6f;
         audioSource.clip = deathSound;
@@ -161,6 +169,14 @@ public class Enemy : MonoBehaviour
 
         bellyLight.enabled = false;
         numWeakpoints = startWeakpointsCount;
+
+        foreach (GameObject weakpoint in weakpoints)
+            weakpoint.gameObject.SetActive(false);
+
+        weakpoints.Clear();
+
+        if (EventManager.Instance.enemyDie != null)
+            EventManager.Instance.enemyDie.Invoke();
 
         if (EventManager.Instance.leavePlayer != null)
             EventManager.Instance.leavePlayer.Invoke();
@@ -188,6 +204,7 @@ public class Enemy : MonoBehaviour
             curTime += Time.deltaTime;
             yield return null;
         }
+        
 
         // // Disable all children of the AI parent
         // foreach (Transform child in transform)
@@ -205,7 +222,7 @@ public class Enemy : MonoBehaviour
         cryptidObject.SetActive(false);
 
         if (--lives <= 0 && EventManager.Instance.fadeToBlack != null)
-            EventManager.Instance.fadeToBlack.Invoke();
+            EventManager.Instance.fadeToBlack.Invoke(true);
 
         yield return null;
     }

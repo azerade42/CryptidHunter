@@ -19,6 +19,7 @@ public class Explosion : MonoBehaviour, IPooledObject
     private IEnumerator Deactivate()
     {
         yield return new WaitForSeconds(1f);
+        gameObject.transform.SetParent(ObjectPooler.Instance.gameObject.transform);
         gameObject.SetActive(false);
     }
 }
