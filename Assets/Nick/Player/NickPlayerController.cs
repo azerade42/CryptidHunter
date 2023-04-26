@@ -60,6 +60,8 @@ public class NickPlayerController : MonoBehaviour
 
     private float startShotTime, timeSinceShot;
     private bool isShooting;
+
+    private bool pause;
     
     public float StartShotTime
     {
@@ -79,7 +81,7 @@ public class NickPlayerController : MonoBehaviour
     [SerializeField] private Volume nightVisComponent;
     public bool nightVisToggle;
     private float batteryPercent;
-    public float totalBatteryLife = 100.0f;
+    public float totalBatteryLife = 300.0f;
     // ////////////////////////////////////////////
 
     public void OnMove(InputAction.CallbackContext context)
@@ -111,9 +113,6 @@ public class NickPlayerController : MonoBehaviour
     {
         if (context.performed && !isPickingUp)
             Pickup();
-        
-        if (context.canceled)
-            isPickingUp = false;
     }
 
     public void OnAimDownSight(InputAction.CallbackContext context)
@@ -164,6 +163,8 @@ public class NickPlayerController : MonoBehaviour
 
     public void OnCrouch(InputAction.CallbackContext context)
     {
+        if (pause) return;
+
         if (grounded && context.performed)
         {
             Crouch();
@@ -182,6 +183,11 @@ public class NickPlayerController : MonoBehaviour
     public void OnInventory(InputAction.CallbackContext context)
     {
         ToggleInventory();
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        Pause();
     }
 
     void Start()
@@ -234,6 +240,8 @@ public class NickPlayerController : MonoBehaviour
 
     private void Move()
     {
+        if (pause) return;
+
         Vector3 currentVelocity = rb.velocity;
         Vector3 targetVelocity = new Vector3(move.x, 0, move.y);
         targetVelocity = targetVelocity.normalized;
@@ -263,6 +271,8 @@ public class NickPlayerController : MonoBehaviour
 
     private void Look()
     {
+        if (pause) return;
+
         transform.Rotate(Vector3.up * look.x * sens);
 
         lookRotation += -(look.y) * sens;
@@ -273,6 +283,8 @@ public class NickPlayerController : MonoBehaviour
 
     private void Jump()
     {
+        if (pause) return;
+        
         Vector3 jF = Vector3.zero;
 
         if (grounded)
@@ -307,6 +319,7 @@ public class NickPlayerController : MonoBehaviour
 
     private void Fire()
     {
+        if (pause) return;
 
         timeSinceShot = Time.time - startShotTime;
 
@@ -321,6 +334,7 @@ public class NickPlayerController : MonoBehaviour
     // Cycles between flashlight and rifle
     private void EquipRight()
     {
+        if (pause) return;
         if (isAiming) return;
         if (talismanEquipped) return;
 
@@ -357,6 +371,8 @@ public class NickPlayerController : MonoBehaviour
             currentItem.Pickup();
         }
 
+        isPickingUp = false;
+
         // if (!talismanUsed)
         // {
         //     UseTalisman();
@@ -368,6 +384,8 @@ public class NickPlayerController : MonoBehaviour
 
     private void NightVision()
     {
+        if (pause) return;
+
         if((nightVisToggle != true) && (batteryPercent >= 0.0f))
         {
             nightVisComponent.enabled =  !nightVisComponent.enabled;
@@ -385,10 +403,37 @@ public class NickPlayerController : MonoBehaviour
         batBar.SetBatteryPercentage(batteryPercent);
     }
 
-    void ToggleInventory()
+    private void ToggleInventory()
     {
+        if (pause) return;
+
         if (EventManager.Instance.toggleInventory != null)
             EventManager.Instance.toggleInventory.Invoke();
+    }
+
+    private void Pause()
+    {
+        pause = !pause;
+        Time.timeScale = pause ? 0 : 1;
+
+        if (pause)
+        {
+            GetComponent<AudioSource>().Pause();
+            rb.velocity = Vector3.zero;
+            speed = 0;
+        }
+        else
+        {
+            if (isHoldingGun && !isAiming)
+            {
+                if (EventManager.Instance.crosshairTrue != null)
+                    EventManager.Instance.crosshairTrue.Invoke();
+            }
+
+        }
+
+        if (EventManager.Instance.paused != null)
+            EventManager.Instance.paused.Invoke();
     }
 
     public void Damage(float damageTaken)

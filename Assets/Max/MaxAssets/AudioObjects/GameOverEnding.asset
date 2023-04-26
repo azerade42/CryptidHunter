@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: GameOverEnding
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: b7f6d44b6b46c22448b6f47ebde3cc16, type: 3}
+  clip: {fileID: 8300000, guid: 54fda5abf3fcc124b9c46fe72c687b94, type: 3}
   subtitles:
   - I hope you choke on me you son of a bitch!
   delayBetweenLines: 0

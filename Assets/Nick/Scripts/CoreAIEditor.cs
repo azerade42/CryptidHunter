@@ -1,6 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(CoreAI))]
 public class CoreAIEditor : Editor
 {
@@ -50,3 +52,5 @@ public class CoreAIEditor : Editor
     }
 
 }
+
+#endif

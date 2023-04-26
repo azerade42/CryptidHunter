@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: PrepareForTheWorst
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 5f54054b3091f90409a9d7a22ca40641, type: 3}
+  clip: {fileID: 8300000, guid: 4ecc88a649408a44b9b96fdb2430a76a, type: 3}
   subtitles:
   - Prepare for the worst and maybe you won't be surprised when something bad happens
   delayBetweenLines: 0

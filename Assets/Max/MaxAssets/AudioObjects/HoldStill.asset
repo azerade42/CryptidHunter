@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: HoldStill
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: f4010ba8f6a746a4f94221a0fead7e2e, type: 3}
+  clip: {fileID: 8300000, guid: 1e0aa120c975f7f48a5f2a051c55f372, type: 3}
   subtitles:
   - Hold still dammit!
   delayBetweenLines: 0

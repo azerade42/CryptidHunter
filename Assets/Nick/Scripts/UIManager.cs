@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,7 +15,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private AudioObject samWinDialogue;
     [SerializeField] private AudioObject samLoseDialogue;
+
+    [SerializeField] private Canvas pauseMenu;
+
     private bool crosshairActive;
+    private bool pausemenuActive;
 
     private void OnEnable()
     {
@@ -24,6 +29,7 @@ public class UIManager : MonoBehaviour
         EventManager.Instance.crosshairTrue += CrossHairTrue;
         EventManager.Instance.damageAction += Damaged;
         EventManager.Instance.fadeToBlack += FadeToBlack;
+        EventManager.Instance.paused += PauseMenu;
 
     }
 
@@ -35,6 +41,7 @@ public class UIManager : MonoBehaviour
         EventManager.Instance.crosshairFalse -= CrossHairFalse;
         EventManager.Instance.damageAction -= Damaged;
         EventManager.Instance.fadeToBlack -= FadeToBlack;
+        EventManager.Instance.paused -= PauseMenu;
     }
 
     private void Awake()
@@ -61,6 +68,23 @@ public class UIManager : MonoBehaviour
         crosshair.gameObject.SetActive(crosshairActive);
     }
 
+    private void PauseMenu()
+    {
+        if (pausemenuActive)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            pausemenuActive = false;
+            pauseMenu.gameObject.SetActive(false);
+        }
+        else
+        {
+            CrossHairFalse();
+            Cursor.lockState = CursorLockMode.Confined;
+            pausemenuActive = true;
+            pauseMenu.gameObject.SetActive(true);
+        }
+    }
+
     private void Damaged()
     {
         float health = playerController.Health;
@@ -76,10 +100,6 @@ public class UIManager : MonoBehaviour
 
     private void FadeToBlack(bool win)
     {
-        // Time.timeScale = 0;
-
-        
-
         if (win)
         {
             StartCoroutine(FadeOut(10.0f));
@@ -90,7 +110,6 @@ public class UIManager : MonoBehaviour
             StartCoroutine(FadeOut(5.0f));
             Vocals.instance.Say(samLoseDialogue);
         }
-        
     }
 
     IEnumerator FadeOut(float fadeTime)
@@ -102,13 +121,12 @@ public class UIManager : MonoBehaviour
             Color imgColor = fadeOutImage.color;
             imgColor.a = lerp;
             fadeOutImage.color = imgColor;
-            // equippedObj.GetComponent<MeshRenderer>().material.SetFloat("_DissolveHeight", lerp);
             curTime += Time.deltaTime;
             yield return null;
         }
 
-        NickSceneManager.Restart();
-        Application.Quit();
+        Cursor.lockState = CursorLockMode.Confined;
+        SceneManager.LoadScene(0);
 
         yield return null;
     }

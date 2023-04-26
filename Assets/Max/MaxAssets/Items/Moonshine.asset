@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   itemName: Moonshine
-  icon: {fileID: 21300000, guid: f6d6c96a23bc6a543908cb3a32448d18, type: 3}
+  icon: {fileID: 21300000, guid: 5d50f062117365b40b6c774d4ad9f091, type: 3}
   itemDescription: Moonshine desc
   itemType: 1
   playerObj: {fileID: 0}

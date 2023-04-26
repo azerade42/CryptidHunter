@@ -12,5 +12,7 @@ public class TriggerAudioTest : MonoBehaviour
         {
             Vocals.instance.Say(clipToPlay);
         }
+
+        gameObject.SetActive(false);
     }
 }

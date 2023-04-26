@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: GameOverWin
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 5574b3bb4f1f8c546ab9dfe8c9ec911b, type: 3}
+  clip: {fileID: 8300000, guid: 6c86b43799496e44ab9691becf409d49, type: 3}
   subtitles:
   - Heh, well Sam you did it, you saved the world and no one will know about it...
   - But that's okay!

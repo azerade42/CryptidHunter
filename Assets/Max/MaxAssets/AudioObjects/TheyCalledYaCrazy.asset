@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: TheyCalledYaCrazy
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: dd307751e2093c342be8afbb4f05d190, type: 3}
+  clip: {fileID: 8300000, guid: 82560952a219c4b44a9fdde2ce06bba3, type: 3}
   subtitles:
   - They called you crazy!
   - Now look at em now!

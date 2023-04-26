@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: GasPrices
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: d02148390f9559440ba5e425487e6b7b, type: 3}
+  clip: {fileID: 8300000, guid: cbc83ec6603e4b54daea2dca2a00a322, type: 3}
   subtitles:
   - You ever notice how gas prices spike right before a big holiday?
   - Its all a scheme to make more money off of us!

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: BirdsArentReal
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: cee5e02357f3f864b95857edaf658129, type: 3}
+  clip: {fileID: 8300000, guid: ccbcae20abdc88f4ea00f7b88aa26268, type: 3}
   subtitles:
   - Birds aren't real!
   - Everyone knows those are just U.S. spy drones meant to monitor our every move.

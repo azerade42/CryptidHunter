@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: EndOfTheWorld
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 12878024d236d1349b704ce1c0d384e1, type: 3}
+  clip: {fileID: 8300000, guid: 374eeb62b4b823b40a55ac18018da347, type: 3}
   subtitles:
   - I knew it all along!
   - The end of the world is upon us and it's all because of the damn government!

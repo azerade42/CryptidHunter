@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(Talisman))]
 public class TalismanEditor : Editor
 {
@@ -18,3 +20,5 @@ public class TalismanEditor : Editor
         }
     }
 }
+
+#endif

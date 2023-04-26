@@ -30,6 +30,8 @@ public class EventManager : MonoBehaviour
     public UnityAction crosshairTrue;
     public UnityAction crosshairFalse;
 
+    public UnityAction paused;
+
     private void Awake()
     {
         if (EventManager.Instance != null)

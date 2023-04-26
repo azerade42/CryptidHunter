@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: MagazinePickup
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 1ea75a6baeaef6048bcd4cc352b2d29b, type: 3}
+  clip: {fileID: 8300000, guid: 9a30b7a1a8dc97147a6ef2048d2b03ab, type: 3}
   subtitles:
   - They don't make 'em like they used to anymore...
   delayBetweenLines: 0

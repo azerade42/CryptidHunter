@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450754d62fddc7f44a94d56c87b58629, type: 3}
   m_Name: TaxesNShit
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: ac45517f5b22b8440b566146c71135f9, type: 3}
+  clip: {fileID: 8300000, guid: 9eb0bb21ebde8a343841daeb209c46f0, type: 3}
   subtitles:
   - Can't ever trust the government!
   - Always taking our taxes and shit!
