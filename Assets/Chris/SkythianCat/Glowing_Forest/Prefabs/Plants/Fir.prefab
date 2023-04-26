@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 33000013629962810}
   - component: {fileID: 23000011310366672}
   - component: {fileID: 136000011571503686}
-  - component: {fileID: 2138222386986896882}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Fir
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,9 +26,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010042709864}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.000000021855694, y: 0.000000029802326, z: -0.000000029802326,
+    w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.091718, y: 2.091718, z: 2.091718}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,19 +100,3 @@ CapsuleCollider:
   m_Height: 8.04
   m_Direction: 1
   m_Center: {x: -8.076666e-15, y: 2.51, z: -0.00000011920929}
---- !u!114 &2138222386986896882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010042709864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: f2652fae
